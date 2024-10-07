@@ -26,13 +26,14 @@ object formNintendo: TformNintendo
       Top = 1
       Width = 721
       Height = 451
+      VertScrollBar.Position = 20
       Align = alClient
       TabOrder = 0
       UseWheelForScrolling = True
       object btnGBA: TSpeedButton
         Left = 0
-        Top = 290
-        Width = 700
+        Top = 270
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Game Boy Advanced'
@@ -53,8 +54,8 @@ object formNintendo: TformNintendo
       end
       object btnGBC: TSpeedButton
         Left = 0
-        Top = 145
-        Width = 700
+        Top = 125
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Game Boy Color'
@@ -75,8 +76,8 @@ object formNintendo: TformNintendo
       end
       object btnGB: TSpeedButton
         Left = 0
-        Top = 0
-        Width = 700
+        Top = -20
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Game Boy'
@@ -93,11 +94,12 @@ object formNintendo: TformNintendo
         Spacing = 25
         ExplicitLeft = 3
         ExplicitTop = -6
+        ExplicitWidth = 700
       end
       object btnDS: TSpeedButton
         Left = 0
-        Top = 1015
-        Width = 700
+        Top = 995
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Nintendo DS'
@@ -118,8 +120,8 @@ object formNintendo: TformNintendo
       end
       object btnGC: TSpeedButton
         Left = 0
-        Top = 870
-        Width = 700
+        Top = 850
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'GameCube'
@@ -140,8 +142,8 @@ object formNintendo: TformNintendo
       end
       object btnN64: TSpeedButton
         Left = 0
-        Top = 725
-        Width = 700
+        Top = 705
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Nintendo 64'
@@ -162,8 +164,8 @@ object formNintendo: TformNintendo
       end
       object btnSNES: TSpeedButton
         Left = 0
-        Top = 580
-        Width = 700
+        Top = 560
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Super Nintendo'
@@ -184,8 +186,8 @@ object formNintendo: TformNintendo
       end
       object btnNES: TSpeedButton
         Left = 0
-        Top = 435
-        Width = 700
+        Top = 415
+        Width = 696
         Height = 145
         Align = alTop
         Caption = 'Nintendinho'

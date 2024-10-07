@@ -28,21 +28,53 @@ var
 implementation
 
 uses
-  uEmpresas, uNintendo, uGBA, System.StrUtils, IdURI, uLibrary;
+  uEmpresas, uNintendo, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons;
 
 {$R *.dfm}
 
 procedure TformPrincipal.VerificaRomExiste(Empresa, Emulador, Rom: String);
 var
   Arquivo: String;
+  Formulario: TForm;
+  Botao: TSpeedButton;
+  i: Integer;
+  FormClass: TFormClass;
 begin
   Arquivo := DiretorioPadrao + Empresa + '\' + Emulador + '\Roms\' + Rom;
 
   if not FileExists(Arquivo) then
   begin
     ForceDirectories(DiretorioPadrao + Empresa + '\' + Emulador + '\Roms\')
+  end
+  else
+  begin
+    // Troca para o formulário correspondente ao emulador
+    TrocaForm(Emulador);
+
+    // Encontra o formulário usando o nome do emulador de forma dinâmica
+    FormClass := TFormClass(FindClass('Tform' + Emulador)); // Exemplo: TformGBA, TformSNES
+
+    if Assigned(FormClass) and (FormAtivo is FormClass) then
+    begin
+      // Percorre os controles do ScrollBox de forma genérica
+      for i := 0 to TScrollBox(FormAtivo.FindComponent('sbPrincipal')).ControlCount - 1 do
+      begin
+        if TScrollBox(FormAtivo.FindComponent('sbPrincipal')).Controls[i] is TSpeedButton then
+        begin
+          Botao := TSpeedButton(TScrollBox(FormAtivo.FindComponent('sbPrincipal')).Controls[i]);
+          // Verifica se o caption do botão bate com o nome da ROM (sem a extensão)
+          if Botao.Caption = ChangeFileExt(Rom, '') then
+          begin
+            // Simula o clique no botão
+            Botao.Click;
+            Break;
+          end;
+        end;
+      end;
+    end;
   end;
 end;
+
 
 procedure TformPrincipal.ValidaParametros;
 var
@@ -54,7 +86,6 @@ var
 begin
   // Captura o link completo
   Parametro := ParamStr(1);
-  ShowMessage(Parametro);
 
   // Decodifica o parâmetro da URL
   Parametro := TIdURI.URLDecode(Parametro);
@@ -72,7 +103,7 @@ begin
   if Length(Parametros) < 3 then
   begin
     ShowMessage('Número insuficiente de parâmetros.');
-    Exit;
+    formPrincipal.Close;
   end;
 
   // Atribui os parâmetros

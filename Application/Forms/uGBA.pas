@@ -55,6 +55,7 @@ begin
 
   if not TDirectory.Exists(Diretorio) then
   begin
+    sbPrincipal.Visible := False;
     pnlPrincipal.Caption := 'Nenhuma Rom de GBA';
     Exit;
   end;
@@ -139,5 +140,8 @@ procedure TformGBA.btnVoltarClick(Sender: TObject);
 begin
   TformPrincipal(Owner).TrocaForm('Nintendo');
 end;
+
+initialization
+  RegisterClass(TformGBA);  // Registra a classe para uso dinâmico
 
 end.

@@ -7,7 +7,7 @@ uses
   uNintendo in 'Forms\uNintendo.pas' {formNintendo},
   uGBA in 'Forms\uGBA.pas' {formGBA},
   uLibrary in 'uLibrary.pas',
-  uDownload in 'TesteFuncionalidade\uDownload.pas' {Form1};
+  uDownload in 'TesteFuncionalidade\uDownload.pas' {FormDownload};
 
 {$R *.res}
 

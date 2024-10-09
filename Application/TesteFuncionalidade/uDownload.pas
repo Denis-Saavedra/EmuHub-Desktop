@@ -8,7 +8,7 @@ uses
   IdAuthentication, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient;
 
 type
-  TForm1 = class(TForm)
+  TFormDownload = class(TForm)
     procedure FormClick(Sender: TObject);
   private
     { Private declarations }
@@ -17,7 +17,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormDownload: TFormDownload;
 
 implementation
 
@@ -49,9 +49,9 @@ begin
   SSLHandler.Free;
 end;
 
-procedure TForm1.FormClick(Sender: TObject);
+procedure TFormDownload.FormClick(Sender: TObject);
 begin
-  BaixarArquivo('https://media.retroachievements.org/Images/005442.png', 'C:\Users\denis\Downloads\005442.png');
+  BaixarArquivo('http://52.45.165.140/api/roms/nintendo/gba/Pok%C3%A9mon%20Emerald/download/', 'C:\EmuHub\Nintendo\GBA\Roms\Pokémon Emerald.gba');
 end;
 
 end.

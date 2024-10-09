@@ -142,7 +142,7 @@
         </DCCReference>
         <DCCReference Include="uLibrary.pas"/>
         <DCCReference Include="TesteFuncionalidade\uDownload.pas">
-            <Form>Form1</Form>
+            <Form>FormDownload</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

@@ -1,6 +1,7 @@
 object formPrincipal: TformPrincipal
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'EmuHub'
   ClientHeight = 516
   ClientWidth = 708

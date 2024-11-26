@@ -9,8 +9,12 @@ uses
 type
   TformPrincipal = class(TForm)
     pnlPrincipal: TPanel;
+    pnlUser: TPanel;
+    btnLogout: TButton;
+    Label1: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnLogoutClick(Sender: TObject);
   private
     { Private declarations }
     FormAtivo: Tform;
@@ -30,7 +34,7 @@ implementation
 
 uses
   uEmpresas, uNintendo, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons,
-  IdHTTP, IdSSLOpenSSL;
+  IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles;
 
 {$R *.dfm}
 
@@ -40,12 +44,19 @@ var
   FileStream: TFileStream;
   SSLHandler: TIdSSLIOHandlerSocketOpenSSL;
   URL: String;
+  ZipFile: TZipFile;
+  DiretorioDestino: String;
+  I: Integer;
 begin
+  DestinoArquivo := DestinoArquivo + '.zip';
+  DiretorioDestino := ExtractFilePath(DestinoArquivo);;
+
   IdHTTP := TIdHTTP.Create(nil);
   FileStream := TFileStream.Create(DestinoArquivo, fmCreate);
   SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
   URL := 'http://52.45.165.140/api/roms/' +
-  Empresa + '/' + Emulador + '/' + ChangeFileExt(Rom, '') + '/download/';
+  Empresa + '/' + Emulador + '/' + Rom + '/download/';
+  showmessage(URL);
 
   try
     // Configura o manipulador SSL para conexões HTTPS
@@ -62,6 +73,22 @@ begin
   FileStream.Free;
   IdHTTP.Free;
   SSLHandler.Free;
+
+  ZipFile := TZipFile.Create;
+  try
+    // Abre o arquivo ZIP
+    ZipFile.Open(DestinoArquivo, zmRead);
+
+    // Extrai todos os arquivos para o diretório de destino
+    ZipFile.ExtractAll(DiretorioDestino);
+
+  finally
+    // Libera a memória do objeto TZipFile
+    ZipFile.Free;
+  end;
+
+  // Após descompactar, apaga o arquivo ZIP
+  DeleteFile(DestinoArquivo);
 end;
 
 procedure TformPrincipal.VerificaRomExiste(Empresa, Emulador, Rom: String);
@@ -73,7 +100,7 @@ var
   FormClass: TFormClass;
 begin
   Arquivo := DiretorioPadrao + Empresa + '\' + Emulador + '\Roms\' + Rom;
-  if not FileExists(Arquivo) then
+  if not FileExists(Arquivo + RetornaExtensao(Empresa, Emulador)) then
   begin
     ForceDirectories(DiretorioPadrao + Empresa + '\' + Emulador + '\Roms\');
     BaixarRom(Arquivo, Empresa, Emulador, Rom);
@@ -120,8 +147,8 @@ begin
   // Decodifica o parâmetro da URL
   Parametro := TIdURI.URLDecode(Parametro);
 
-  // Remove o prefixo "EmuHub://"
-  Delete(Parametro, 1, Length('EmuHub://'));
+  // Remove o prefixo "EmuHub:"
+  Delete(Parametro, 1, Length('EmuHub:'));
   // Remove a barra extra, se existir, do final do nome do jogo
   Parametro := StringReplace(Parametro, '/', '', [rfReplaceAll]);
 
@@ -145,9 +172,22 @@ begin
 end;
 
 
+procedure TformPrincipal.btnLogoutClick(Sender: TObject);
+begin
+  DeleteFile(DiretorioPadrao + '/config.ini');
+  OnCreate(formPrincipal);
+end;
+
 procedure TformPrincipal.FormCreate(Sender: TObject);
 begin
   DiretorioPadrao := PegaDiretorio;
+
+  FormAtivo := TformLogin.Create(Self);
+  try
+    FormAtivo.ShowModal;  // Mostra o formulário como modal
+  finally
+    FormAtivo.Free; // Libera a memória do formulário após o fechamento
+  end;
 end;
 
 procedure TformPrincipal.FormShow(Sender: TObject);

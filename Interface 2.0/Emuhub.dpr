@@ -2,7 +2,8 @@ program Emuhub;
 
 uses
   Vcl.Forms,
-  uPrincipal in 'uPrincipal.pas' {formPrincipal};
+  uSpeedButtonWithBorder in 'Librarys\uSpeedButtonWithBorder.pas',
+  uPrincipal in 'Formularios\uPrincipal.pas' {formPrincipal};
 
 {$R *.res}
 

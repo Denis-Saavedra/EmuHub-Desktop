@@ -1,6 +1,7 @@
 object formPrincipal: TformPrincipal
   Left = 0
   Top = 0
+  Align = alClient
   BorderStyle = bsSingle
   Caption = 'EmuHub'
   ClientHeight = 516
@@ -13,38 +14,17 @@ object formPrincipal: TformPrincipal
   Font.Style = []
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
   OnShow = FormShow
   TextHeight = 15
   object pnlPrincipal: TPanel
     Left = 0
-    Top = 56
-    Width = 708
-    Height = 460
-    Align = alBottom
-    TabOrder = 0
-  end
-  object pnlUser: TPanel
-    Left = 0
     Top = 0
     Width = 708
-    Height = 57
-    Align = alTop
-    TabOrder = 1
-    object Label1: TLabel
-      Left = 264
-      Top = 21
-      Width = 140
-      Height = 15
-      Caption = 'RetroAchievements: FALSE'
-    end
-    object btnLogout: TButton
-      Left = 616
-      Top = 17
-      Width = 75
-      Height = 25
-      Caption = 'Sair'
-      TabOrder = 0
-      OnClick = btnLogoutClick
-    end
+    Height = 516
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
   end
 end

@@ -9,12 +9,11 @@ uses
 type
   TformPrincipal = class(TForm)
     pnlPrincipal: TPanel;
-    pnlUser: TPanel;
-    btnLogout: TButton;
-    Label1: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnLogoutClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FormAtivo: Tform;
@@ -34,7 +33,7 @@ implementation
 
 uses
   uEmpresas, uNintendo, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons,
-  IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles;
+  IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles, uMenu;
 
 {$R *.dfm}
 
@@ -181,19 +180,32 @@ end;
 procedure TformPrincipal.FormCreate(Sender: TObject);
 begin
   DiretorioPadrao := PegaDiretorio;
+end;
 
-  FormAtivo := TformLogin.Create(Self);
-  try
-    FormAtivo.ShowModal;  // Mostra o formulário como modal
-  finally
-    FormAtivo.Free; // Libera a memória do formulário após o fechamento
+procedure TformPrincipal.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_F11 then
+  begin
+    if WindowState = wsMaximized then
+      WindowState := wsNormal
+    else
+      WindowState := wsMaximized;
   end;
+end;
+
+procedure TformPrincipal.FormResize(Sender: TObject);
+begin
+  if formPrincipal.WindowState = TWindowState.wsMaximized then
+    formPrincipal.BorderStyle := bsNone  
+  else 
+    formPrincipal.BorderStyle := bsSingle;   
 end;
 
 procedure TformPrincipal.FormShow(Sender: TObject);
 begin
   if not (ParamCount > 0) then
-    TrocaForm('Empresas')
+    TrocaForm('Menu')
   else
   begin
     ValidaParametros;
@@ -209,7 +221,12 @@ begin
   else if para = 'Nintendo' then
     FormAtivo := TformNintendo.Create(Self)
   else if para = 'GBA' then
-    FormAtivo := TformGBA.Create(Self);
+    FormAtivo := TformGBA.Create(Self)
+  else if para = 'Login' then
+    FormAtivo := TformLogin.Create(Self)
+  else if para = 'Menu' then
+    FormAtivo := TformMenu.Create(Self);
+       
 
   FormAtivo.Parent := pnlPrincipal;
   FormAtivo.Show;

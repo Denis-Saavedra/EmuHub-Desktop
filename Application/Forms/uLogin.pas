@@ -4,16 +4,17 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TformLogin = class(TForm)
+    pnlPrincipal: TPanel;
+    Label1: TLabel;
     edtEmail: TEdit;
+    Label2: TLabel;
     edtSenha: TEdit;
     btnSignIn: TButton;
     btnLogin: TButton;
-    Label1: TLabel;
-    Label2: TLabel;
     procedure btnSignInClick(Sender: TObject);
     procedure btnLoginClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

@@ -33,7 +33,7 @@ object formNintendo: TformNintendo
       object btnGBA: TSpeedButton
         Left = 0
         Top = 270
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Game Boy Advanced'
@@ -55,7 +55,7 @@ object formNintendo: TformNintendo
       object btnGBC: TSpeedButton
         Left = 0
         Top = 125
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Game Boy Color'
@@ -77,7 +77,7 @@ object formNintendo: TformNintendo
       object btnGB: TSpeedButton
         Left = 0
         Top = -20
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Game Boy'
@@ -94,12 +94,11 @@ object formNintendo: TformNintendo
         Spacing = 25
         ExplicitLeft = 3
         ExplicitTop = -6
-        ExplicitWidth = 700
       end
       object btnDS: TSpeedButton
         Left = 0
         Top = 995
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Nintendo DS'
@@ -121,7 +120,7 @@ object formNintendo: TformNintendo
       object btnGC: TSpeedButton
         Left = 0
         Top = 850
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'GameCube'
@@ -143,7 +142,7 @@ object formNintendo: TformNintendo
       object btnN64: TSpeedButton
         Left = 0
         Top = 705
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Nintendo 64'
@@ -165,7 +164,7 @@ object formNintendo: TformNintendo
       object btnSNES: TSpeedButton
         Left = 0
         Top = 560
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Super Nintendo'
@@ -187,7 +186,7 @@ object formNintendo: TformNintendo
       object btnNES: TSpeedButton
         Left = 0
         Top = 415
-        Width = 696
+        Width = 700
         Height = 145
         Align = alTop
         Caption = 'Nintendinho'

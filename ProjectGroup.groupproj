@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{592D2785-7C19-4A6A-BF19-1E8590B3F0EE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Application\EmuHub.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="EmuHub">
+        <MSBuild Projects="Application\EmuHub.dproj"/>
+    </Target>
+    <Target Name="EmuHub:Clean">
+        <MSBuild Projects="Application\EmuHub.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EmuHub:Make">
+        <MSBuild Projects="Application\EmuHub.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MyCustoms">
+        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj"/>
+    </Target>
+    <Target Name="MyCustoms:Clean">
+        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MyCustoms:Make">
+        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="EmuHub;MyCustoms"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="EmuHub:Clean;MyCustoms:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="EmuHub:Make;MyCustoms:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

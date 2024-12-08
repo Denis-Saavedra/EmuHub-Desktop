@@ -127,7 +127,8 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="uPrincipal.pas">
+        <DCCReference Include="Librarys\uSpeedButtonWithBorder.pas"/>
+        <DCCReference Include="Formularios\uPrincipal.pas">
             <Form>formPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>

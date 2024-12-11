@@ -1,13 +1,33 @@
 unit uLibrary;
 
 interface
+
+uses
+  MyCustomPanel;
 Function PegaDiretorio: String;
 Function RetornaExtensao(Empresa, Emulador: String): String;
+procedure HoverOn(Sender: TMyCustomPanel);
+procedure HoverOff(Sender: TMyCustomPanel);
 
 implementation
 
 uses
   System.Win.Registry, Winapi.Windows;
+
+procedure HoverOn(Sender: TMyCustomPanel);
+begin
+  Sender.BorderEnabled := True;
+  Sender.Repaint;
+end;
+
+procedure HoverOff(Sender: TMyCustomPanel);
+begin
+  if Sender.Enabled then
+  begin
+    Sender.BorderEnabled := False;
+  Sender.Repaint;
+  end;
+end;
 
 Function PegaDiretorio: String;
 var

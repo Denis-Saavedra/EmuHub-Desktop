@@ -27,14 +27,27 @@ type
     pnlMenuPrincipal: TPanel;
     btnMenuPrincipal: TMyCustomPanel;
     btnConfiguracoes: TMyCustomPanel;
+    pnlAtivo: TPanel;
     procedure Timer1Timer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnConfiguracoesMouseEnter(Sender: TObject);
+    procedure btnConfiguracoesMouseLeave(Sender: TObject);
+    procedure btnConfiguracoesClick(Sender: TObject);
+    procedure btnMenuPrincipalMouseLeave(Sender: TObject);
+    procedure btnMenuPrincipalMouseEnter(Sender: TObject);
+    procedure btnMenuPrincipalClick(Sender: TObject);
   private
     { Private declarations }
+    FormMenu: Tform;
+    FormAtivo: Tform;
     function GetBatteryPercentage: Integer;
     procedure AtualizaDataBateria;
+    procedure DeselecionaBotoes;
   public
     { Public declarations }
+    BotaoAtivo: TMyCustomPanel;
+    procedure TrocaFormMenu(para: String);
+    procedure TrocaFormAtivo(para: String);
   end;
 
 var
@@ -42,10 +55,60 @@ var
 
 implementation
 
+uses
+  uEmpresas, uNintendo, uMenuPrincipal, uConfiguracoes, uGBA, uContas;
+
 var
   Timer1: Ttimer;
 
 {$R *.dfm}
+
+procedure TformMenu.DeselecionaBotoes;
+begin
+  if FormMenu.Name <> 'formEmpresas_2' then
+  begin
+    if FormMenu.Name = 'formNintendo_1' then
+    begin
+      if Assigned(TformNintendo(FormMenu).btnAtivo) then
+      begin
+        TformNintendo(FormMenu).btnAtivo.BorderEnabled := False;
+        TformNintendo(FormMenu).btnAtivo.Repaint;
+      end;
+    end;
+  end;
+end;
+
+procedure TformMenu.TrocaFormAtivo(para: String);
+begin
+  FreeAndNil(FormAtivo);
+
+  if para = 'MenuPrincipal' then
+    FormAtivo := TformMenuPrincipal.Create(Self)
+  else if para = 'Configuracoes' then
+    FormAtivo := TformConfiguracoes.Create(Self)
+  else if para = 'Contas' then
+    FormAtivo := TformContas.Create(Self)
+  else if para = 'GBA' then
+    FormAtivo := TformGBA.Create(Self);
+
+
+  FormAtivo.Parent := pnlAtivo;
+  FormAtivo.Show;
+end;
+
+procedure TformMenu.TrocaFormMenu(para: String);
+begin
+  FreeAndNil(FormMenu);
+
+  if para = 'Empresas' then
+    FormMenu := TformEmpresas.Create(Self)
+  else if para = 'Nintendo' then
+    FormMenu := TformNintendo.Create(Self);
+
+
+  FormMenu.Parent := pnlMenuMutavel;
+  FormMenu.Show;
+end;
 
 procedure TformMenu.AtualizaDataBateria;
   var
@@ -70,8 +133,62 @@ begin
   labelData.Caption := FormatDateTime('dd/mm - hh:mm', Now);
 end;
 
+procedure TformMenu.btnConfiguracoesClick(Sender: TObject);
+begin
+  DeselecionaBotoes;
+  TrocaFormAtivo('Configuracoes');
+  BotaoAtivo := btnConfiguracoes;
+
+  btnMenuPrincipal.BorderEnabled := False;
+  btnMenuPrincipal.Repaint;
+  btnMenuPrincipal.Enabled := True;
+end;
+
+procedure TformMenu.btnConfiguracoesMouseEnter(Sender: TObject);
+begin
+  btnConfiguracoes.BorderEnabled := True;
+  btnConfiguracoes.Repaint;
+end;
+
+procedure TformMenu.btnConfiguracoesMouseLeave(Sender: TObject);
+begin
+  if not (BotaoAtivo = btnConfiguracoes) then
+  begin
+    btnConfiguracoes.BorderEnabled := False;
+    btnConfiguracoes.Repaint;
+  end;
+end;
+
+procedure TformMenu.btnMenuPrincipalClick(Sender: TObject);
+begin
+  DeselecionaBotoes;
+  TrocaFormAtivo('MenuPrincipal');
+  BotaoAtivo := btnMenuPrincipal;
+
+  btnConfiguracoes.BorderEnabled := False;
+  btnConfiguracoes.Repaint;
+  btnConfiguracoes.Enabled := True;
+end;
+
+procedure TformMenu.btnMenuPrincipalMouseEnter(Sender: TObject);
+begin
+  btnMenuPrincipal.BorderEnabled := True;
+  btnMenuPrincipal.Repaint;
+end;
+
+procedure TformMenu.btnMenuPrincipalMouseLeave(Sender: TObject);
+begin
+  if not (BotaoAtivo = btnMenuPrincipal) then
+  begin
+    btnMenuPrincipal.BorderEnabled := False;
+    btnMenuPrincipal.Repaint;
+  end;
+end;
+
 procedure TformMenu.FormCreate(Sender: TObject);
 begin
+  BotaoAtivo := btnMenuPrincipal;
+
   AtualizaDataBateria;
   // Cria o Timer dinamicamente
   Timer1 := TTimer.Create(Self);
@@ -89,6 +206,9 @@ begin
 
   //Trata os Botões
   btnConfiguracoes.BorderEnabled := False;
+
+  TrocaFormMenu('Empresas');
+  TrocaFormAtivo('MenuPrincipal');
 end;
 
 function TformMenu.GetBatteryPercentage: Integer;

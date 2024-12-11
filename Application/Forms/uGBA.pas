@@ -11,7 +11,6 @@ uses
 type
   TformGBA = class(TForm)
     pnlPrincipal: TPanel;
-    btnVoltar: TButton;
     imgCollectionIcones: TImageCollection;
     vImgListIcones: TVirtualImageList;
     sbPrincipal: TScrollBox;
@@ -124,8 +123,10 @@ var
   Comando: string;
 begin
   Botao := Sender as TSpeedButton;
-  Comando := 'start /b ' + DiretorioPadrao + 'Nintendo\GBA\mGBA.exe -f ' +
-  '"' + DiretorioPadrao + 'Nintendo\GBA\Roms\' + Botao.Caption + '.gba"';
+  Comando := 'start /b ' + DiretorioPadrao + 'RaLibRetro\RALibretro.exe ' +
+  '--core mgba_libretro ' +
+  '--system 5 ' +
+  '--game "' + DiretorioPadrao + 'Nintendo\GBA\Roms\' + Botao.Caption + '.gba"';
   // Executa o comando no CMD
   ShellExecute(0, 'open', 'cmd.exe', PChar('/C ' + Comando), nil, SW_SHOWNORMAL);
 end;

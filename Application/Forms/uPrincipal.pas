@@ -32,7 +32,7 @@ var
 implementation
 
 uses
-  uEmpresas, uNintendo, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons,
+  uEmpresas, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons,
   IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles, uMenu;
 
 {$R *.dfm}
@@ -218,8 +218,6 @@ begin
 
   if para = 'Empresas' then
     FormAtivo := TformEmpresas.Create(Self)
-  else if para = 'Nintendo' then
-    FormAtivo := TformNintendo.Create(Self)
   else if para = 'GBA' then
     FormAtivo := TformGBA.Create(Self)
   else if para = 'Login' then
@@ -230,10 +228,6 @@ begin
 
   FormAtivo.Parent := pnlPrincipal;
   FormAtivo.Show;
-
-  // Verifica se o FormAtivo é do tipo TformEmpresas antes de redimensionar
-  if FormAtivo is TformEmpresas then
-    TformEmpresas(FormAtivo).FormResize(FormAtivo);
 end;
 
 end.

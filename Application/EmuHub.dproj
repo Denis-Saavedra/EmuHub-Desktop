@@ -131,14 +131,6 @@
             <Form>formPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Forms\uEmpresas.pas">
-            <Form>formEmpresas</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Forms\uNintendo.pas">
-            <Form>formNintendo</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Forms\uGBA.pas">
             <Form>formGBA</Form>
             <FormType>dfm</FormType>
@@ -157,6 +149,26 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Components\MyCustomPanel.pas"/>
+        <DCCReference Include="Forms\uEmpresas.pas">
+            <Form>formEmpresas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\uNintendo.pas">
+            <Form>formNintendo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\uMenuPrincipal.pas">
+            <Form>formMenuPrincipal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\uConfiguracoes.pas">
+            <Form>formConfiguracoes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\uSelecionaEmulador.pas">
+            <Form>formSelecionaEmulador</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

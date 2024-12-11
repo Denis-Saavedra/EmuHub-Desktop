@@ -4,32 +4,28 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, System.Actions, Vcl.ActnList, System.ImageList,
-  Vcl.ImgList, Vcl.Buttons;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, MyCustomPanel,
+  Vcl.BaseImageCollection, Vcl.ImageCollection;
 
 type
   TformEmpresas = class(TForm)
     pnlPrincipal: TPanel;
-    pnlEmpresasUp: TPanel;
-    pnlEmpresasDown: TPanel;
-    pnlNintendo: TPanel;
-    pnlSega: TPanel;
-    pnlMicrosoft: TPanel;
-    pnlSony: TPanel;
-    btnNintendo: TSpeedButton;
-    btnSega: TSpeedButton;
-    btnMicrosoft: TSpeedButton;
-    btnSony: TSpeedButton;
-    procedure FormResize(Sender: TObject);
+    btnNintendo: TMyCustomPanel;
+    btnSega: TMyCustomPanel;
+    btnSony: TMyCustomPanel;
+    ImageCollection1: TImageCollection;
+    procedure FormShow(Sender: TObject);
     procedure btnNintendoClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+    procedure btnNintendoMouseEnter(Sender: TObject);
+    procedure btnNintendoMouseLeave(Sender: TObject);
+    procedure btnSegaMouseEnter(Sender: TObject);
+    procedure btnSegaMouseLeave(Sender: TObject);
+    procedure btnSonyMouseEnter(Sender: TObject);
+    procedure btnSonyMouseLeave(Sender: TObject);
   private
     { Private declarations }
-
   public
     { Public declarations }
-    procedure ArrumaTela;
   end;
 
 var
@@ -38,77 +34,61 @@ var
 implementation
 
 uses
-  uPrincipal, uNintendo, uLibrary, System.IOUtils;
-
-var
-  DiretorioPadrao: String;
+  uMenu;
 
 {$R *.dfm}
 
-procedure TformEmpresas.ArrumaTela;
-begin
-  // Paineis
-  pnlEmpresasUp.Height := (Round(pnlPrincipal.Height / 2) + 1);
-  pnlEmpresasDown.Height := (Round(pnlPrincipal.Height / 2) + 1);
-  pnlNintendo.Width := (Round(pnlEmpresasUp.Width / 2) + 1);
-  pnlSega.Width := (Round(pnlEmpresasUp.Width / 2) + 1);
-  pnlMicrosoft.Width := (Round(pnlEmpresasDown.Width / 2) + 1);
-  pnlSony.Width := (Round(pnlEmpresasDown.Width / 2) + 1);
-
-  // Botão Nintendo
-  btnNintendo.Width := pnlNintendo.Width - 20;
-  btnNintendo.Height := pnlNintendo.Height - 20;
-  btnNintendo.Top := 10;
-  btnNintendo.Left := 10;
-  btnNintendo.Font.Size := Round(btnNintendo.Width / 15);
-
-  // Botão Sega
-  btnSega.Width := pnlNintendo.Width - 20;
-  btnSega.Height := pnlSega.Height - 20;
-  btnSega.Top := 10;
-  btnSega.Left := 10;
-  btnSega.Font.Size := Round(btnNintendo.Width / 15);
-
-  // Botão Microsoft
-  btnMicrosoft.Width := pnlNintendo.Width - 20;
-  btnMicrosoft.Height := pnlMicrosoft.Height - 20;
-  btnMicrosoft.Top := 10;
-  btnMicrosoft.Left := 10;
-  btnMicrosoft.Font.Size := Round(btnNintendo.Width / 15);
-
-  // Botão Sony
-  btnSony.Width := pnlNintendo.Width - 20;
-  btnSony.Height := pnlSony.Height - 20;
-  btnSony.Top := 10;
-  btnSony.Left := 10;
-  btnSony.Font.Size := Round(btnNintendo.Width / 15);
-end;
-
 procedure TformEmpresas.btnNintendoClick(Sender: TObject);
 begin
-  TFormPrincipal(Owner).TrocaForm('Nintendo');
+  TformMenu(Owner).TrocaFormMenu('Nintendo');
 end;
 
-procedure TformEmpresas.FormCreate(Sender: TObject);
+procedure TformEmpresas.btnNintendoMouseEnter(Sender: TObject);
 begin
-  DiretorioPadrao := PegaDiretorio;
-
-  if TDirectory.Exists(DiretorioPadrao + '\Nintendo') then
-    btnNintendo.Enabled := True;
-
-  if TDirectory.Exists(DiretorioPadrao + '\Sega') then
-    btnSega.Enabled := True;
-
-  if TDirectory.Exists(DiretorioPadrao + '\Sony') then
-    btnSony.Enabled := True;
-
-  if TDirectory.Exists(DiretorioPadrao + '\Microsoft') then
-    btnMicrosoft.Enabled := True;
+  btnNintendo.BorderEnabled := True;
+  btnNintendo.Repaint;
 end;
 
-procedure TformEmpresas.FormResize(Sender: TObject);
+procedure TformEmpresas.btnNintendoMouseLeave(Sender: TObject);
 begin
-  ArrumaTela;
+  btnNintendo.BorderEnabled := False;
+  btnNintendo.Repaint;
+end;
+
+procedure TformEmpresas.btnSegaMouseEnter(Sender: TObject);
+begin
+  btnSega.BorderEnabled := True;
+  btnSega.Repaint;
+end;
+
+procedure TformEmpresas.btnSegaMouseLeave(Sender: TObject);
+begin
+  btnSega.BorderEnabled := False;
+  btnSega.Repaint;
+end;
+
+procedure TformEmpresas.btnSonyMouseEnter(Sender: TObject);
+begin
+  btnSony.BorderEnabled := True;
+  btnSony.Repaint;
+end;
+
+procedure TformEmpresas.btnSonyMouseLeave(Sender: TObject);
+begin
+  btnSony.BorderEnabled := False;
+  btnSony.Repaint;
+end;
+
+procedure TformEmpresas.FormShow(Sender: TObject);
+begin
+  //Trata o Panel
+  pnlPrincipal.Color := RGB(55, 55, 55);
+  pnlPrincipal.Repaint;
+
+  //Trata os botões
+  btnNintendo.BorderEnabled := False;
+  btnSega.BorderEnabled := False;
+  btnSony.BorderEnabled := False;
 end;
 
 end.

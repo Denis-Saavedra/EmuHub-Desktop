@@ -34,18 +34,7 @@ object formGBA: TformGBA
       Width = 638
       Height = 478
       Align = alClient
-      TabOrder = 1
-    end
-    object btnVoltar: TButton
-      Left = 25
-      Top = 25
-      Width = 75
-      Height = 75
-      ImageIndex = 0
-      ImageName = 'Voltar'
-      Images = vImgListIcones
       TabOrder = 0
-      OnClick = btnVoltarClick
     end
   end
   object imgCollectionIcones: TImageCollection

@@ -13,7 +13,8 @@ uses
   uNintendo in 'Forms\uNintendo.pas' {formNintendo},
   uMenuPrincipal in 'Forms\uMenuPrincipal.pas' {formMenuPrincipal},
   uConfiguracoes in 'Forms\uConfiguracoes.pas' {formConfiguracoes},
-  uSelecionaEmulador in 'Forms\uSelecionaEmulador.pas' {formSelecionaEmulador};
+  uSelecionaEmulador in 'Forms\uSelecionaEmulador.pas' {formSelecionaEmulador},
+  uContas in 'Forms\uContas.pas' {formContas};
 
 {$R *.res}
 
@@ -27,5 +28,6 @@ begin
   Application.CreateForm(TformMenuPrincipal, formMenuPrincipal);
   Application.CreateForm(TformConfiguracoes, formConfiguracoes);
   Application.CreateForm(TformSelecionaEmulador, formSelecionaEmulador);
+  Application.CreateForm(TformContas, formContas);
   Application.Run;
 end.

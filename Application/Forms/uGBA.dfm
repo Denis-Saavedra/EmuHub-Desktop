@@ -13,6 +13,8 @@ object formGBA: TformGBA
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnCreate = FormCreate
+  OnResize = FormResize
+  OnShow = FormShow
   TextHeight = 15
   object pnlPrincipal: TPanel
     Left = 0
@@ -26,6 +28,7 @@ object formGBA: TformGBA
     Font.Height = -29
     Font.Name = 'Calibri'
     Font.Style = []
+    ParentBackground = False
     ParentFont = False
     TabOrder = 0
     object sbPrincipal: TScrollBox
@@ -37,7 +40,7 @@ object formGBA: TformGBA
       TabOrder = 0
     end
   end
-  object imgCollectionIcones: TImageCollection
+  object imgCollection: TImageCollection
     Images = <
       item
         Name = 'Voltar'
@@ -56,24 +59,5 @@ object formGBA: TformGBA
       end>
     Left = 101
     Top = 377
-  end
-  object vImgListIcones: TVirtualImageList
-    Images = <
-      item
-        CollectionIndex = 0
-        CollectionName = 'Voltar'
-        Name = 'Voltar'
-      end>
-    ImageCollection = imgCollectionIcones
-    Width = 64
-    Height = 64
-    Left = 109
-    Top = 305
-  end
-  object ImageList: TImageList
-    Height = 96
-    Width = 96
-    Left = 385
-    Top = 257
   end
 end

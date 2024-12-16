@@ -6,21 +6,24 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
   System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, Vcl.BaseImageCollection,
-  Vcl.ImageCollection;
+  Vcl.ImageCollection, MyCustomPanel, System.Generics.Collections;
 
 type
   TformGBA = class(TForm)
     pnlPrincipal: TPanel;
-    imgCollectionIcones: TImageCollection;
-    vImgListIcones: TVirtualImageList;
+    imgCollection: TImageCollection;
     sbPrincipal: TScrollBox;
-    ImageList: TImageList;
     procedure btnVoltarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
+    BotoesRoms: TList<TMyCustomPanel>;
     procedure CarregaRoms;
     procedure BotaoClick(Sender: TObject);
+    procedure BotaoEnter(Sender: TObject);
+    procedure BotaoLeave(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -32,7 +35,7 @@ implementation
 
 uses
   uPrincipal, System.IOUtils, System.Win.Registry, uLibrary,
-   System.Generics.Collections, ShellAPI, Vcl.Imaging.pngimage, Vcl.Buttons;
+  ShellAPI, Vcl.Imaging.pngimage, Vcl.Buttons;
 
 var
   DiretorioPadrao: String;
@@ -44,11 +47,11 @@ var
   Diretorio: String;
   Arquivos: TArray<string>;
   Arquivo: string;
-  BotoesRoms: TList<TSpeedButton>;
-  Botao: TSpeedButton;
+  Botao: TMyCustomPanel;
   I: Integer;
   PNGImage: TPNGImage; // Para imagens PNG
   Bitmap: TBitmap; // Para bitmap
+  Item: TImageCollectionItem;
 begin
   Diretorio := DiretorioPadrao + 'Nintendo\GBA\Roms';
 
@@ -61,22 +64,34 @@ begin
 
   Arquivos := TDirectory.GetFiles(Diretorio, '*.gba', TSearchOption.soTopDirectoryOnly);
 
-  BotoesRoms := TList<TSpeedButton>.Create; // Inicializa a lista de botões
+  BotoesRoms := TList<TMyCustomPanel>.Create; // Inicializa a lista de botões
   try
     I := 0;
     for Arquivo in Arquivos do
     begin
       // Cria o botão
-      Botao := TSpeedButton.Create(Self);
+      Botao := TMyCustomPanel.Create(Self);
       Botao.Parent := sbPrincipal; // Define o painel como pai do botão
-      Botao.Align := alTop;
-      Botao.Height := 145;
+      Botao.BevelOuter := bvNone;
+      Botao.Height := 120;
+      //Botao.Width := sbPrincipal.Width - 55;
+      Botao.ImageWidth := 100;
+      Botao.ImageHeight := 100;
+      Botao.Font.Name := 'Pixelify Sans';
+      Botao.Font.Color := clWhite;
+      Botao.Font.Size := 55;
+      Botao.BorderColor := clPurple;
+      Botao.BorderEnabled := False;
+      Botao.Left := 32;
+      Botao.Top := (25 + (145 * I));
       Botao.Name := 'btn' + IntToStr(I); // Use o índice ou outra forma para nomear o botão
 
       // Define o Caption do botão sem a extensão .gba
       Botao.Caption := ChangeFileExt(ExtractFileName(Arquivo), '');
 
       Botao.OnClick := BotaoClick;
+      Botao.OnMouseEnter := BotaoEnter;
+      Botao.OnMouseLeave := BotaoLeave;
 
       // Criar novas instâncias para cada iteração
       PNGImage := TPNGImage.Create;
@@ -91,15 +106,12 @@ begin
           // Converter o PNG para um Bitmap
           Bitmap.Assign(PNGImage);
 
-          // Adicionar o Bitmap à ImageList
-          ImageList.Add(Bitmap, nil); // O segundo parâmetro é a máscara, se necessário
-
-          // Alternativamente, se você quiser adicionar uma máscara:
-          // ImageList.AddMasked(Bitmap, clFuchsia); // Usando uma cor de máscara
+          // Criar um novo item no ImageCollection
+          ImgCollection.Add(Botao.Caption, (Diretorio + '\' + ChangeFileExt(ExtractFileName(Arquivo), '.png')));
 
           // Define a imagem do botão
-          Botao.Images := ImageList;
-          Botao.ImageIndex := ImageList.Count - 1; // Usar o índice da imagem recém-adicionada
+          Botao.ImageCollection := ImgCollection;
+          Botao.ImageIndex := ImgCollection.Count - 1; // Usar o índice da imagem recém-adicionada
         end;
 
       finally
@@ -112,17 +124,17 @@ begin
       I := I + 1;
     end;
   finally
-    BotoesRoms.Free; // Certifique-se de liberar a lista de botões se não precisar mais
+    //BotoesRoms.Free; // Certifique-se de liberar a lista de botões se não precisar mais
   end;
 end;
 
 
 procedure TformGBA.BotaoClick(Sender: TObject);
 var
-  Botao: TSpeedButton;
+  Botao: TMyCustomPanel;
   Comando: string;
 begin
-  Botao := Sender as TSpeedButton;
+  Botao := Sender as TMyCustomPanel;
   Comando := 'start /b ' + DiretorioPadrao + 'RaLibRetro\RALibretro.exe ' +
   '--core mgba_libretro ' +
   '--system 5 ' +
@@ -131,10 +143,42 @@ begin
   ShellExecute(0, 'open', 'cmd.exe', PChar('/C ' + Comando), nil, SW_SHOWNORMAL);
 end;
 
+procedure TformGBA.BotaoEnter(Sender: TObject);
+var
+  Botao: TMyCustomPanel;
+begin
+  Botao := Sender as TMyCustomPanel;
+  HoverOn(Botao);
+end;
+
+procedure TformGBA.BotaoLeave(Sender: TObject);
+var
+  Botao: TMyCustomPanel;
+begin
+  Botao := Sender as TMyCustomPanel;
+  HoverOff(Botao);
+end;
+
 procedure TformGBA.FormCreate(Sender: TObject);
 begin
   DiretorioPadrao := PegaDiretorio;
   CarregaRoms;
+end;
+
+procedure TformGBA.FormResize(Sender: TObject);
+var
+  I: Integer;
+begin
+  for I := 0 to BotoesRoms.Count - 1 do
+  begin
+    BotoesRoms[I].Width := pnlPrincipal.Width - 55;
+  end;
+end;
+
+procedure TformGBA.FormShow(Sender: TObject);
+begin
+  //Trata Painel
+  pnlPrincipal.Color := RGB(40, 40, 40);
 end;
 
 procedure TformGBA.btnVoltarClick(Sender: TObject);

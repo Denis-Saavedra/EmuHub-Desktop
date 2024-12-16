@@ -16,7 +16,6 @@ type
     btnGBA: TMyCustomPanel;
     btnDS: TMyCustomPanel;
     btnN64: TMyCustomPanel;
-    btnGC: TMyCustomPanel;
     btnSNES: TMyCustomPanel;
     btnNES: TMyCustomPanel;
     procedure FormCreate(Sender: TObject);
@@ -41,8 +40,6 @@ type
     procedure btnNESMouseLeave(Sender: TObject);
     procedure btnSNESMouseEnter(Sender: TObject);
     procedure btnSNESMouseLeave(Sender: TObject);
-    procedure btnGCMouseEnter(Sender: TObject);
-    procedure btnGCMouseLeave(Sender: TObject);
     procedure btnN64MouseEnter(Sender: TObject);
     procedure btnN64MouseLeave(Sender: TObject);
   private
@@ -93,8 +90,6 @@ begin
     btnAtivo := btnNES
   else if botao = 'SNES' then
     btnAtivo := btnSNES
-  else if botao = 'GC' then
-    btnAtivo := btnGC
   else if botao = 'N64' then
     btnAtivo := btnN64;
 
@@ -170,16 +165,6 @@ begin
   TrocaBotaoAtivo('GC');
 end;
 
-procedure TformNintendo.btnGCMouseEnter(Sender: TObject);
-begin
-  HoverOn(btnGC);
-end;
-
-procedure TformNintendo.btnGCMouseLeave(Sender: TObject);
-begin
-  HoverOff(btnGC);
-end;
-
 procedure TformNintendo.btnN64Click(Sender: TObject);
 begin
   TrocaBotaoAtivo('N64');
@@ -243,7 +228,6 @@ begin
   btnDS.BorderEnabled := False;
   btnNES.BorderEnabled := False;
   btnSNES.BorderEnabled := False;
-  btnGC.BorderEnabled := False;
   btnN64.BorderEnabled := False;
 end;
 

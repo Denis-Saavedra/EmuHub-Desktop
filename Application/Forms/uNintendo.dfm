@@ -121,7 +121,7 @@ object formNintendo: TformNintendo
     end
     object btnN64: TMyCustomPanel
       Left = 17
-      Top = 340
+      Top = 294
       Width = 200
       Height = 40
       BevelOuter = bvNone
@@ -143,30 +143,6 @@ object formNintendo: TformNintendo
       ImageWidth = 32
       ImageHeight = 32
     end
-    object btnGC: TMyCustomPanel
-      Left = 17
-      Top = 294
-      Width = 200
-      Height = 40
-      BevelOuter = bvNone
-      BorderWidth = 3
-      Caption = 'GameCube'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -16
-      Font.Name = 'Pixelify Sans'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 5
-      OnClick = btnGCClick
-      OnMouseEnter = btnGCMouseEnter
-      OnMouseLeave = btnGCMouseLeave
-      BorderColor = clPurple
-      ImageCollection = ImageCollection1
-      ImageIndex = 6
-      ImageWidth = 32
-      ImageHeight = 32
-    end
     object btnSNES: TMyCustomPanel
       Left = 17
       Top = 248
@@ -181,7 +157,7 @@ object formNintendo: TformNintendo
       Font.Name = 'Pixelify Sans'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 5
       OnClick = btnSNESClick
       OnMouseEnter = btnSNESMouseEnter
       OnMouseLeave = btnSNESMouseLeave
@@ -205,7 +181,7 @@ object formNintendo: TformNintendo
       Font.Name = 'Pixelify Sans'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 6
       OnClick = btnNESClick
       OnMouseEnter = btnNESMouseEnter
       OnMouseLeave = btnNESMouseLeave

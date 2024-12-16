@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  MyCustomPanel;
 
 type
   TformLogin = class(TForm)
@@ -13,12 +14,18 @@ type
     edtEmail: TEdit;
     Label2: TLabel;
     edtSenha: TEdit;
-    btnSignIn: TButton;
-    btnLogin: TButton;
-    procedure btnSignInClick(Sender: TObject);
-    procedure btnLoginClick(Sender: TObject);
+    btnRegistrar: TMyCustomPanel;
+    btnLogin: TMyCustomPanel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnRegistrarClick(Sender: TObject);
+    procedure btnLoginClick(Sender: TObject);
+    procedure btnLoginMouseEnter(Sender: TObject);
+    procedure btnLoginMouseLeave(Sender: TObject);
+    procedure btnRegistrarMouseEnter(Sender: TObject);
+    procedure btnRegistrarMouseLeave(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,7 +44,7 @@ implementation
 
 uses
   ShellAPI, IdHTTP, IdSSL, System.JSON, IdSSLOpenSSL, IdMultipartFormData,
-  System.IniFiles, uLibrary;
+  System.IniFiles, uLibrary, uMenu;
 
 {$R *.dfm}
 
@@ -123,10 +130,10 @@ begin
         begin
           if JSONResponse.TryGetValue<string>('token', Token) then
           begin
-            //ShowMessage('Logou! Token: ' + Token);
+            ShowMessage('Logou! Token: ' + Token);
             Logado := True;
             SalvaLogin(Email, Password);
-            Close;
+            TformMenu(Owner).TrocaFormAtivo('Contas');
           end
           else if JSONResponse.TryGetValue<string>('error', ErrorMsg) then
           begin
@@ -146,7 +153,13 @@ begin
       end;
     except
       on E: EIdHTTPProtocolException do
-        ShowMessage('Erro HTTP: ' + E.ErrorMessage + ' (Código: ' + IntToStr(E.ErrorCode) + ')');
+      begin
+        if (E.ErrorCode = 400) or (E.ErrorCode = 401) then
+          ShowMessage('Erro usuário e/ou senha não encontrados!')
+        else
+          ShowMessage('Erro HTTP: ' + E.ErrorMessage + ' (Código: ' + IntToStr(E.ErrorCode) + ')');
+      end;
+
       on E: Exception do
         ShowMessage('Erro na requisição: ' + E.Message);
     end;
@@ -168,9 +181,29 @@ begin
   LoginAPI(Email, Senha);
 end;
 
-procedure TformLogin.btnSignInClick(Sender: TObject);
+procedure TformLogin.btnLoginMouseEnter(Sender: TObject);
+begin
+  HoverOn(btnLogin);
+end;
+
+procedure TformLogin.btnLoginMouseLeave(Sender: TObject);
+begin
+  HoverOff(btnLogin);
+end;
+
+procedure TformLogin.btnRegistrarClick(Sender: TObject);
 begin
   ShellExecute(0, 'OPEN', PChar('http://52.45.165.140:5173/sign-in'), nil, nil, SW_SHOWNORMAL);
+end;
+
+procedure TformLogin.btnRegistrarMouseEnter(Sender: TObject);
+begin
+  HoverOn(btnRegistrar);
+end;
+
+procedure TformLogin.btnRegistrarMouseLeave(Sender: TObject);
+begin
+  HoverOff(btnRegistrar);
 end;
 
 procedure TformLogin.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -183,6 +216,25 @@ procedure TformLogin.FormCreate(Sender: TObject);
 begin
   if FileExists(PegaDiretorio + '/config.ini') then
     LogaIni;
+end;
+
+procedure TformLogin.FormResize(Sender: TObject);
+begin
+  edtEmail.Width := pnlPrincipal.Width - 180;
+  edtSenha.Width := pnlPrincipal.Width - 180;
+  btnRegistrar.Left := 150;
+  btnLogin.Left := pnlPrincipal.Width - 400;
+end;
+
+procedure TformLogin.FormShow(Sender: TObject);
+begin
+   //Trata painel
+  pnlPrincipal.Color := RGB(40, 40, 40);
+  pnlPrincipal.Repaint;
+
+  //Trata Botões
+  btnLogin.BorderEnabled := False;
+  btnRegistrar.BorderEnabled := False;
 end;
 
 function TformLogin.Logou:Boolean;

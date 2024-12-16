@@ -24,7 +24,6 @@ object formMenuPrincipal: TformMenuPrincipal
     Align = alClient
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 640
     object btnCarregarNucleo: TMyCustomPanel
       Left = 32
       Top = 25

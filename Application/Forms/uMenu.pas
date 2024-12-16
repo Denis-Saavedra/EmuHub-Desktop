@@ -56,7 +56,7 @@ var
 implementation
 
 uses
-  uEmpresas, uNintendo, uMenuPrincipal, uConfiguracoes, uGBA, uContas;
+  uEmpresas, uNintendo, uMenuPrincipal, uConfiguracoes, uGBA, uContas, uLogin;
 
 var
   Timer1: Ttimer;
@@ -72,6 +72,7 @@ begin
       if Assigned(TformNintendo(FormMenu).btnAtivo) then
       begin
         TformNintendo(FormMenu).btnAtivo.BorderEnabled := False;
+        TformNintendo(FormMenu).btnAtivo.Enabled := True;
         TformNintendo(FormMenu).btnAtivo.Repaint;
       end;
     end;
@@ -88,6 +89,8 @@ begin
     FormAtivo := TformConfiguracoes.Create(Self)
   else if para = 'Contas' then
     FormAtivo := TformContas.Create(Self)
+   else if para = 'Login' then
+    FormAtivo := TformLogin.Create(Self)
   else if para = 'GBA' then
     FormAtivo := TformGBA.Create(Self);
 

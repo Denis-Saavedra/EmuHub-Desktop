@@ -23,10 +23,6 @@ object formContas: TformContas
     Align = alClient
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 312
-    ExplicitTop = 112
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object btnUsuario: TMyCustomPanel
       Left = 31
       Top = 25
@@ -43,6 +39,7 @@ object formContas: TformContas
       ParentShowHint = False
       ShowHint = False
       TabOrder = 0
+      OnClick = btnUsuarioClick
       OnMouseEnter = btnUsuarioMouseEnter
       OnMouseLeave = btnUsuarioMouseLeave
       BorderColor = clPurple
@@ -67,6 +64,7 @@ object formContas: TformContas
       ParentShowHint = False
       ShowHint = False
       TabOrder = 1
+      OnClick = btnRAClick
       OnMouseEnter = btnRAMouseEnter
       OnMouseLeave = btnRAMouseLeave
       BorderColor = clPurple

@@ -47,7 +47,7 @@ uses
 procedure TformMenuPrincipal.btnCarregarNucleoClick(Sender: TObject);
 var
   OpenDialog: TOpenDialog;
-  DllFile, JsonFile: string;
+  DllFile: string;
   DestPath: string;
 begin
   // Configurar a pasta de destino (altere para o local desejado)
@@ -68,19 +68,8 @@ begin
     end;
     DllFile := OpenDialog.FileName;
 
-    // Selecionar o arquivo .json
-    OpenDialog.Title := 'Selecione o arquivo .JSON';
-    OpenDialog.Filter := 'Arquivos JSON|*.json';
-    if not OpenDialog.Execute then
-    begin
-      ShowMessage('Operação cancelada.');
-      Exit;
-    end;
-    JsonFile := OpenDialog.FileName;
-
-    // Copiar os arquivos para a pasta de destino
+    // Copiar os arquivo para a pasta de destino
     TFile.Copy(DllFile, TPath.Combine(DestPath, TPath.GetFileName(DllFile)), True);
-    TFile.Copy(JsonFile, TPath.Combine(DestPath, TPath.GetFileName(JsonFile)), True);
 
     // Exibir mensagem de sucesso
     ShowMessage('Core incluido com sucesso!');

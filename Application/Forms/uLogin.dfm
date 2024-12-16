@@ -4,8 +4,8 @@ object formLogin: TformLogin
   Align = alClient
   BorderStyle = bsNone
   Caption = 'Login'
-  ClientHeight = 390
-  ClientWidth = 586
+  ClientHeight = 534
+  ClientWidth = 751
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,64 +15,119 @@ object formLogin: TformLogin
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnResize = FormResize
+  OnShow = FormShow
   TextHeight = 15
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 586
-    Height = 390
+    Width = 751
+    Height = 534
     Align = alClient
+    Color = clBlack
+    ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 56
-    ExplicitTop = 105
-    ExplicitWidth = 185
-    ExplicitHeight = 41
+    ExplicitWidth = 586
+    ExplicitHeight = 390
     object Label1: TLabel
-      Left = 176
-      Top = 99
-      Width = 32
-      Height = 15
+      Left = 112
+      Top = 107
+      Width = 76
+      Height = 35
       Caption = 'Email:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -29
+      Font.Name = 'Pixelify Sans'
+      Font.Style = []
+      ParentFont = False
     end
     object Label2: TLabel
-      Left = 176
-      Top = 163
-      Width = 35
-      Height = 15
+      Left = 112
+      Top = 259
+      Width = 91
+      Height = 35
       Caption = 'Senha:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -29
+      Font.Name = 'Pixelify Sans'
+      Font.Style = []
+      ParentFont = False
     end
     object edtEmail: TEdit
-      Left = 176
-      Top = 120
-      Width = 225
-      Height = 23
+      Left = 112
+      Top = 148
+      Width = 433
+      Height = 43
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -29
+      Font.Name = 'Pixelify Sans'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
+      Text = 'ddd'
     end
     object edtSenha: TEdit
-      Left = 176
-      Top = 184
-      Width = 225
-      Height = 23
+      Left = 112
+      Top = 300
+      Width = 433
+      Height = 43
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -29
+      Font.Name = 'Pixelify Sans'
+      Font.Style = []
+      ParentFont = False
       PasswordChar = '*'
       TabOrder = 1
     end
-    object btnSignIn: TButton
-      Left = 176
-      Top = 232
-      Width = 97
-      Height = 25
+    object btnRegistrar: TMyCustomPanel
+      Left = 83
+      Top = 424
+      Width = 280
+      Height = 80
+      BevelOuter = bvNone
+      BorderWidth = 3
       Caption = 'Registrar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Pixelify Sans'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 2
-      OnClick = btnSignInClick
+      OnClick = btnRegistrarClick
+      OnMouseEnter = btnRegistrarMouseEnter
+      OnMouseLeave = btnRegistrarMouseLeave
+      BorderColor = clPurple
+      ImageIndex = 8
+      ImageWidth = 40
+      ImageHeight = 35
     end
-    object btnLogin: TButton
-      Left = 288
-      Top = 232
-      Width = 113
-      Height = 25
+    object btnLogin: TMyCustomPanel
+      Left = 376
+      Top = 424
+      Width = 280
+      Height = 80
+      BevelOuter = bvNone
+      BorderWidth = 3
       Caption = 'Logar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Pixelify Sans'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 3
       OnClick = btnLoginClick
+      OnMouseEnter = btnLoginMouseEnter
+      OnMouseLeave = btnLoginMouseLeave
+      BorderColor = clPurple
+      ImageIndex = 8
+      ImageWidth = 40
+      ImageHeight = 35
     end
   end
 end

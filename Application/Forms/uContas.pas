@@ -19,6 +19,8 @@ type
     procedure btnUsuarioMouseLeave(Sender: TObject);
     procedure btnRAMouseEnter(Sender: TObject);
     procedure btnRAMouseLeave(Sender: TObject);
+    procedure btnUsuarioClick(Sender: TObject);
+    procedure btnRAClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,9 +33,14 @@ var
 implementation
 
 uses
-  uLibrary;
+  uLibrary, uMenu, ShellAPI;
 
 {$R *.dfm}
+
+procedure TformContas.btnRAClick(Sender: TObject);
+begin
+  ShellExecute(0, 'OPEN', PChar('https://retroachievements.org/login'), nil, nil, SW_SHOWNORMAL);
+end;
 
 procedure TformContas.btnRAMouseEnter(Sender: TObject);
 begin
@@ -43,6 +50,11 @@ end;
 procedure TformContas.btnRAMouseLeave(Sender: TObject);
 begin
   HoverOff(btnRA);
+end;
+
+procedure TformContas.btnUsuarioClick(Sender: TObject);
+begin
+  TformMenu(Owner).TrocaFormAtivo('Login');
 end;
 
 procedure TformContas.btnUsuarioMouseEnter(Sender: TObject);

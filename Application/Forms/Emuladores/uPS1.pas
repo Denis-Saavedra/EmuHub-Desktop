@@ -53,16 +53,16 @@ var
   Bitmap: TBitmap; // Para bitmap
   Item: TImageCollectionItem;
 begin
-  Diretorio := DiretorioPadrao + 'GB';
+  Diretorio := DiretorioPadrao + 'PS';
 
   if not TDirectory.Exists(Diretorio) then
   begin
     sbPrincipal.Visible := False;
-    pnlPrincipal.Caption := 'Nenhuma Rom de GB';
+    pnlPrincipal.Caption := 'Nenhuma Rom de PS';
     Exit;
   end;
 
-  Arquivos := TDirectory.GetFiles(Diretorio, '*.gb', TSearchOption.soTopDirectoryOnly);
+  Arquivos := TDirectory.GetFiles(Diretorio, '*.bin', TSearchOption.soTopDirectoryOnly);
 
   BotoesRoms := TList<TMyCustomPanel>.Create; // Inicializa a lista de botões
   try
@@ -136,9 +136,9 @@ var
 begin
   Botao := Sender as TMyCustomPanel;
   Comando := 'start /b ' + DiretorioPadrao + 'RaLibRetro\RALibretro.exe ' +
-  '--core mgba_libretro ' +
-  '--system 4 ' +
-  '--game "' + DiretorioPadrao + '\GB\' + Botao.Caption + '.gb"';
+  '--core pcsx_rearmed_libretro ' +
+  '--system 12 ' +
+  '--game "' + DiretorioPadrao + '\PS\' + Botao.Caption + '.bin"';
   // Executa o comando no CMD
   ShellExecute(0, 'open', 'cmd.exe', PChar('/C ' + Comando), nil, SW_SHOWNORMAL);
 end;

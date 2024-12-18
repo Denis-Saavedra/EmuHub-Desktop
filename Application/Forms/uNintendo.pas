@@ -102,6 +102,7 @@ end;
 procedure TformNintendo.btnDSClick(Sender: TObject);
 begin
   TrocaBotaoAtivo('DS');
+  TformMenu(Owner).TrocaFormAtivo('NDS');
 end;
 
 procedure TformNintendo.btnDSMouseEnter(Sender: TObject);
@@ -133,11 +134,13 @@ end;
 procedure TformNintendo.btnGBCClick(Sender: TObject);
 begin
   TrocaBotaoAtivo('GBC');
+  TformMenu(Owner).TrocaFormAtivo('GBC');
 end;
 
 procedure TformNintendo.btnGBClick(Sender: TObject);
 begin
   TrocaBotaoAtivo('GB');
+  TformMenu(Owner).TrocaFormAtivo('GB');
 end;
 
 procedure TformNintendo.btnGBCMouseEnter(Sender: TObject);
@@ -168,6 +171,7 @@ end;
 procedure TformNintendo.btnN64Click(Sender: TObject);
 begin
   TrocaBotaoAtivo('N64');
+  TformMenu(Owner).TrocaFormAtivo('N64');
 end;
 
 procedure TformNintendo.btnN64MouseEnter(Sender: TObject);
@@ -183,6 +187,7 @@ end;
 procedure TformNintendo.btnNESClick(Sender: TObject);
 begin
   TrocaBotaoAtivo('NES');
+  TformMenu(Owner).TrocaFormAtivo('NES');
 end;
 
 procedure TformNintendo.btnNESMouseEnter(Sender: TObject);
@@ -198,6 +203,7 @@ end;
 procedure TformNintendo.btnSNESClick(Sender: TObject);
 begin
   TrocaBotaoAtivo('SNES');
+  TformMenu(Owner).TrocaFormAtivo('SNES');
 end;
 
 procedure TformNintendo.btnSNESMouseEnter(Sender: TObject);

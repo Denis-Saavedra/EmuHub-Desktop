@@ -38,7 +38,8 @@ implementation
 uses
   uFrAvisos,
   uFrCaminhos,
-  uFrLoad;
+  uFrLoad,
+  System.Zip;
 
 {$R *.dfm}
 {$R resources.res}
@@ -129,6 +130,7 @@ end;
 procedure TFormPrincipal.InstallApplication;
 var
   DestFolder, AppFile: string;
+  ZipFile: TZipFile;
 begin
   DestFolder := Diretorio + '\EmuHub\';
 
@@ -140,6 +142,37 @@ begin
   AppFile := DestFolder + 'EmuHub.exe';
 
   ExtractResourceToFile('EMUHUB_EXE', AppFile);
+
+  AppFile := DestFolder + 'RaLibretro.zip';
+  ExtractResourceToFile('RALIBRETRO', AppFile);
+
+  ZipFile := TZipFile.Create;
+  try
+    // Abre o arquivo ZIP
+    ZipFile.Open(AppFile, zmRead);
+
+    // Extrai todos os arquivos para o diretório de destino
+    ZipFile.ExtractAll(DestFolder);
+
+  finally
+    // Libera a memória do objeto TZipFile
+    ZipFile.Free;
+  end;
+
+  // Após descompactar, apaga o arquivo ZIP
+  DeleteFile(AppFile);
+
+  // Cria os diretorios dos emuladores
+  ForceDirectories(DestFolder + 'GB');
+  ForceDirectories(DestFolder + 'GBC');
+  ForceDirectories(DestFolder + 'GBA');
+  ForceDirectories(DestFolder + 'NDS');
+  ForceDirectories(DestFolder + 'NES');
+  ForceDirectories(DestFolder + 'SNES');
+  ForceDirectories(DestFolder + 'N64');
+  ForceDirectories(DestFolder + 'SMS');
+  ForceDirectories(DestFolder + 'DC');
+  ForceDirectories(DestFolder + 'PS');
 end;
 
 procedure TFormPrincipal.TrocaFrame(Direcao: Integer);

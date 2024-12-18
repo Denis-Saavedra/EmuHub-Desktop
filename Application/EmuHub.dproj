@@ -131,10 +131,6 @@
             <Form>formPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Forms\uGBA.pas">
-            <Form>formGBA</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="uLibrary.pas"/>
         <DCCReference Include="TesteFuncionalidade\uDownload.pas">
             <Form>FormDownload</Form>
@@ -171,6 +167,54 @@
         </DCCReference>
         <DCCReference Include="Forms\uContas.pas">
             <Form>formContas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uGBA.pas">
+            <Form>formGBA</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uGB.pas">
+            <Form>formGB</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uGBC.pas">
+            <Form>formGBC</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uNDS.pas">
+            <Form>formNDS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uN64.pas">
+            <Form>formN64</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uNES.pas">
+            <Form>formNES</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uSNES.pas">
+            <Form>formSNES</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\uSony.pas">
+            <Form>formSony</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\uSega.pas">
+            <Form>formSega</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uSMS.pas">
+            <Form>formSMS</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uPS1.pas">
+            <Form>formPS1</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Forms\Emuladores\uDC.pas">
+            <Form>formDC</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

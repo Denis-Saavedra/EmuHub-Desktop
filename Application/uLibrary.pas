@@ -5,7 +5,7 @@ interface
 uses
   MyCustomPanel;
 Function PegaDiretorio: String;
-Function RetornaExtensao(Empresa, Emulador: String): String;
+Function RetornaExtensao(Emulador: String): String;
 procedure HoverOn(Sender: TMyCustomPanel);
 procedure HoverOff(Sender: TMyCustomPanel);
 
@@ -58,45 +58,34 @@ begin
   end;
 end;
 
-Function RetornaExtensao(Empresa, Emulador: String): String;
+Function RetornaExtensao(Emulador: String): String;
 var
   Reg: TRegistry;
 begin
-  if Empresa = 'Nintendo' then
-  begin
-    if Emulador = 'DS' then
-      Result := '.ds';
-    if Emulador = 'GB' then
-      Result := '.gb';
-    if Emulador = 'GBA' then
-      Result := '.gba';
-    if Emulador = 'GBC' then
-      Result := '.gbc';
-    if Emulador = 'GC' then
-      Result := '.rvz';
-    if Emulador = 'N64' then
-      Result := '.n64';
-    if Emulador = 'NES' then
-      Result := '.nes';
-    if Emulador = 'SNES' then
-      Result := '.smc';
-  end
-  else if Empresa = 'Sega' then
-  begin
-    if Emulador = 'DC' then
-      Result := '.gdi';
-    if Emulador = 'MD' then
-      Result := '.bin';
-  end
-  else if Empresa = 'Sony' then
-  begin
-    if Emulador = 'PS1' then
-      Result := '.iso';
-    if Emulador = 'PS2' then
-      Result := '.iso';
-  end;
-
-
+  if Emulador = 'DS' then
+    Result := '.ds';
+  if Emulador = 'GB' then
+    Result := '.gb';
+  if Emulador = 'GBA' then
+    Result := '.gba';
+  if Emulador = 'GBC' then
+    Result := '.gbc';
+  if Emulador = 'GC' then
+    Result := '.rvz';
+  if Emulador = 'N64' then
+    Result := '.n64';
+  if Emulador = 'NES' then
+    Result := '.nes';
+  if Emulador = 'SNES' then
+    Result := '.smc';
+  if Emulador = 'DC' then
+    Result := '.gdi';
+  if Emulador = 'MD' then
+    Result := '.bin';
+  if Emulador = 'PS1' then
+    Result := '.iso';
+  if Emulador = 'PS2' then
+    Result := '.iso';
 end;
 
 end.

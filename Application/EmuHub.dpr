@@ -3,7 +3,6 @@ program EmuHub;
 uses
   Vcl.Forms,
   uPrincipal in 'Forms\uPrincipal.pas' {formPrincipal},
-  uGBA in 'Forms\uGBA.pas' {formGBA},
   uLibrary in 'uLibrary.pas',
   uDownload in 'TesteFuncionalidade\uDownload.pas' {FormDownload},
   uLogin in 'Forms\uLogin.pas' {Form1},
@@ -14,7 +13,19 @@ uses
   uMenuPrincipal in 'Forms\uMenuPrincipal.pas' {formMenuPrincipal},
   uConfiguracoes in 'Forms\uConfiguracoes.pas' {formConfiguracoes},
   uSelecionaEmulador in 'Forms\uSelecionaEmulador.pas' {formSelecionaEmulador},
-  uContas in 'Forms\uContas.pas' {formContas};
+  uContas in 'Forms\uContas.pas' {formContas},
+  uGBA in 'Forms\Emuladores\uGBA.pas' {formGBA},
+  uGB in 'Forms\Emuladores\uGB.pas' {formGB},
+  uGBC in 'Forms\Emuladores\uGBC.pas' {formGBC},
+  uNDS in 'Forms\Emuladores\uNDS.pas' {formNDS},
+  uN64 in 'Forms\Emuladores\uN64.pas' {formN64},
+  uNES in 'Forms\Emuladores\uNES.pas' {formNES},
+  uSNES in 'Forms\Emuladores\uSNES.pas' {formSNES},
+  uSony in 'Forms\uSony.pas' {formSony},
+  uSega in 'Forms\uSega.pas' {formSega},
+  uSMS in 'Forms\Emuladores\uSMS.pas' {formSMS},
+  uPS1 in 'Forms\Emuladores\uPS1.pas' {formPS1},
+  uDC in 'Forms\Emuladores\uDC.pas' {formDC};
 
 {$R *.res}
 
@@ -29,5 +40,17 @@ begin
   Application.CreateForm(TformConfiguracoes, formConfiguracoes);
   Application.CreateForm(TformSelecionaEmulador, formSelecionaEmulador);
   Application.CreateForm(TformContas, formContas);
+  Application.CreateForm(TformGBA, formGBA);
+  Application.CreateForm(TformGB, formGB);
+  Application.CreateForm(TformGBC, formGBC);
+  Application.CreateForm(TformNDS, formNDS);
+  Application.CreateForm(TformN64, formN64);
+  Application.CreateForm(TformNES, formNES);
+  Application.CreateForm(TformSNES, formSNES);
+  Application.CreateForm(TformSony, formSony);
+  Application.CreateForm(TformSega, formSega);
+  Application.CreateForm(TformSMS, formSMS);
+  Application.CreateForm(TformPS1, formPS1);
+  Application.CreateForm(TformDC, formDC);
   Application.Run;
 end.

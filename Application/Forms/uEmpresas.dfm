@@ -61,6 +61,7 @@ object formEmpresas: TformEmpresas
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      OnClick = btnSegaClick
       OnMouseEnter = btnSegaMouseEnter
       OnMouseLeave = btnSegaMouseLeave
       BorderColor = clPurple
@@ -84,6 +85,7 @@ object formEmpresas: TformEmpresas
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnClick = btnSonyClick
       OnMouseEnter = btnSonyMouseEnter
       OnMouseLeave = btnSonyMouseLeave
       BorderColor = clPurple

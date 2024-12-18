@@ -22,6 +22,8 @@ type
     procedure btnSegaMouseLeave(Sender: TObject);
     procedure btnSonyMouseEnter(Sender: TObject);
     procedure btnSonyMouseLeave(Sender: TObject);
+    procedure btnSegaClick(Sender: TObject);
+    procedure btnSonyClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -55,6 +57,11 @@ begin
   btnNintendo.Repaint;
 end;
 
+procedure TformEmpresas.btnSegaClick(Sender: TObject);
+begin
+  TformMenu(Owner).TrocaFormMenu('Sega');
+end;
+
 procedure TformEmpresas.btnSegaMouseEnter(Sender: TObject);
 begin
   btnSega.BorderEnabled := True;
@@ -65,6 +72,11 @@ procedure TformEmpresas.btnSegaMouseLeave(Sender: TObject);
 begin
   btnSega.BorderEnabled := False;
   btnSega.Repaint;
+end;
+
+procedure TformEmpresas.btnSonyClick(Sender: TObject);
+begin
+  TformMenu(Owner).TrocaFormMenu('Sony');
 end;
 
 procedure TformEmpresas.btnSonyMouseEnter(Sender: TObject);

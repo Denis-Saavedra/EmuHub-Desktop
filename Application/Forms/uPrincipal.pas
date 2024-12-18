@@ -19,8 +19,8 @@ type
     FormAtivo: Tform;
     DiretorioPadrao: String;
     procedure ValidaParametros;
-    procedure VerificaRomExiste(Empresa, Emulador, Rom: String);
-    procedure BaixarRom(DestinoArquivo, Empresa, Emulador, Rom: string);
+    procedure VerificaRomExiste(Emulador, Rom: String);
+    procedure BaixarRom(DestinoArquivo, Emulador, Rom: string);
   public
     { Public declarations }
     procedure TrocaForm(para: String);
@@ -33,29 +33,35 @@ implementation
 
 uses
   uEmpresas, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons,
-  IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles, uMenu;
+  IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles, uMenu,
+  MyCustomPanel;
 
 {$R *.dfm}
 
-procedure TformPrincipal.BaixarRom(DestinoArquivo, Empresa, Emulador, Rom: string);
+procedure TformPrincipal.BaixarRom(DestinoArquivo, Emulador, Rom: string);
 var
   IdHTTP: TIdHTTP;
-  FileStream: TFileStream;
+  FileStream, FileStreamImage: TFileStream;
   SSLHandler: TIdSSLIOHandlerSocketOpenSSL;
-  URL: String;
+  URL, URLimg: String;
   ZipFile: TZipFile;
   DiretorioDestino: String;
   I: Integer;
+  DestinoImagem: String;
 begin
+  DestinoImagem := DestinoArquivo + '.png';
   DestinoArquivo := DestinoArquivo + '.zip';
   DiretorioDestino := ExtractFilePath(DestinoArquivo);;
 
   IdHTTP := TIdHTTP.Create(nil);
   FileStream := TFileStream.Create(DestinoArquivo, fmCreate);
+  FileStreamImage := TFileStream.Create(DestinoImagem, fmCreate);
   SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
   URL := 'http://52.45.165.140/api/roms/' +
-  Empresa + '/' + Emulador + '/' + Rom + '/download/';
-  showmessage(URL);
+  Emulador + '/' + Rom + '/download/';
+  URLimg := 'http://52.45.165.140/api/roms/img/download/?rom_name='+
+  StringReplace(Rom, ' ', '%20', [rfReplaceAll]);
+  //showmessage(URL);
 
   try
     // Configura o manipulador SSL para conexões HTTPS
@@ -65,11 +71,13 @@ begin
     IdHTTP.Request.UserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3';
 
     IdHTTP.Get(URL, FileStream); // Baixa o arquivo da URL e salva no FileStream
+    IdHTTP.Get(URLimg, FileStreamImage);
   except
     on E: Exception do
       ShowMessage('Erro ao baixar arquivo: ' + E.Message); // Mostra mensagem de erro
   end;
   FileStream.Free;
+  FileStreamImage.Free;
   IdHTTP.Free;
   SSLHandler.Free;
 
@@ -90,40 +98,42 @@ begin
   DeleteFile(DestinoArquivo);
 end;
 
-procedure TformPrincipal.VerificaRomExiste(Empresa, Emulador, Rom: String);
+procedure TformPrincipal.VerificaRomExiste(Emulador, Rom: String);
 var
   Arquivo: String;
   Formulario: TForm;
-  Botao: TSpeedButton;
+  Painel: TMyCustomPanel;
   i: Integer;
   FormClass: TFormClass;
 begin
-  Arquivo := DiretorioPadrao + Empresa + '\' + Emulador + '\Roms\' + Rom;
-  if not FileExists(Arquivo + RetornaExtensao(Empresa, Emulador)) then
+  Arquivo := DiretorioPadrao + Emulador + '\' + Rom;
+  if not FileExists(Arquivo + RetornaExtensao(Emulador)) then
   begin
-    ForceDirectories(DiretorioPadrao + Empresa + '\' + Emulador + '\Roms\');
-    BaixarRom(Arquivo, Empresa, Emulador, Rom);
+    ForceDirectories(DiretorioPadrao + Emulador + '\');
+    BaixarRom(Arquivo, Emulador, Rom);
   end;
 
   // Troca para o formulário correspondente ao emulador
-  TrocaForm(Emulador);
+  TformMenu(FormAtivo).TrocaFormAtivo(Emulador);
 
   // Encontra o formulário usando o nome do emulador de forma dinâmica
   FormClass := TFormClass(FindClass('Tform' + Emulador)); // Exemplo: TformGBA, TformSNES
 
-  if Assigned(FormClass) and (FormAtivo is FormClass) then
+  if Assigned(FormClass) and (TformMenu(FormAtivo).FormAtivo is FormClass) then
   begin
     // Percorre os controles do ScrollBox de forma genérica
-    for i := 0 to TScrollBox(FormAtivo.FindComponent('sbPrincipal')).ControlCount - 1 do
+    for i := 0 to TScrollBox(TformMenu(FormAtivo).FormAtivo.FindComponent('sbPrincipal')).ControlCount - 1 do
     begin
-      if TScrollBox(FormAtivo.FindComponent('sbPrincipal')).Controls[i] is TSpeedButton then
+      if TScrollBox(TformMenu(FormAtivo).FormAtivo.FindComponent('sbPrincipal')).Controls[i] is TMyCustomPanel then
       begin
-        Botao := TSpeedButton(TScrollBox(FormAtivo.FindComponent('sbPrincipal')).Controls[i]);
-        // Verifica se o caption do botão bate com o nome da ROM (sem a extensão)
-        if Botao.Caption = ChangeFileExt(Rom, '') then
+        Painel := TMyCustomPanel(TScrollBox(TformMenu(FormAtivo).FormAtivo.FindComponent('sbPrincipal')).Controls[i]);
+        // Verifica se o Caption ou Tag do painel bate com o nome da ROM (sem a extensão)
+        if Painel.Caption = ChangeFileExt(Rom, '') then
         begin
-          // Simula o clique no botão
-          Botao.Click;
+          // Simula a ação de clique no painel
+          if Assigned(Painel.OnClick) then
+            Painel.OnClick(Painel); // Chama o evento OnClick, se existir
+
           Break;
         end;
       end;
@@ -132,11 +142,11 @@ begin
 end;
 
 
+
 procedure TformPrincipal.ValidaParametros;
 var
   Parametro: String;
   Parametros: TArray<string>;
-  Empresa: String;
   Emulador: String;
   Rom: String;
 begin
@@ -153,21 +163,20 @@ begin
 
 
   // Divide os parâmetros usando "|" como delimitador
-  Parametros := SplitString(Parametro, '|');
+  Parametros := SplitString(Parametro, '&');
 
   // Verifica se foram passados os 3 parâmetros esperados
-  if Length(Parametros) < 3 then
+  if Length(Parametros) < 2 then
   begin
     ShowMessage('Número insuficiente de parâmetros.');
     formPrincipal.Close;
   end;
 
   // Atribui os parâmetros
-  Empresa := Parametros[0];
-  Emulador := Parametros[1];
-  Rom := Parametros[2];
+  Emulador := Parametros[0];
+  Rom := Parametros[1];
 
-  VerificaRomExiste(Empresa, Emulador, Rom);
+  VerificaRomExiste(Emulador, Rom);
 end;
 
 
@@ -204,25 +213,17 @@ end;
 
 procedure TformPrincipal.FormShow(Sender: TObject);
 begin
-  if not (ParamCount > 0) then
-    TrocaForm('Menu')
-  else
-  begin
+  TrocaForm('Menu');
+
+  if (ParamCount > 0) then
     ValidaParametros;
-  end;
 end;
 
 procedure TformPrincipal.TrocaForm(para: String);
 begin
   FreeAndNil(FormAtivo);
 
-  if para = 'Empresas' then
-    FormAtivo := TformEmpresas.Create(Self)
-  else if para = 'GBA' then
-    FormAtivo := TformGBA.Create(Self)
-  else if para = 'Login' then
-    FormAtivo := TformLogin.Create(Self)
-  else if para = 'Menu' then
+  if para = 'Menu' then
     FormAtivo := TformMenu.Create(Self);
        
 

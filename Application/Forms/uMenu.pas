@@ -39,12 +39,12 @@ type
   private
     { Private declarations }
     FormMenu: Tform;
-    FormAtivo: Tform;
     function GetBatteryPercentage: Integer;
     procedure AtualizaDataBateria;
     procedure DeselecionaBotoes;
   public
     { Public declarations }
+    FormAtivo: Tform;
     BotaoAtivo: TMyCustomPanel;
     procedure TrocaFormMenu(para: String);
     procedure TrocaFormAtivo(para: String);
@@ -56,7 +56,8 @@ var
 implementation
 
 uses
-  uEmpresas, uNintendo, uMenuPrincipal, uConfiguracoes, uGBA, uContas, uLogin;
+  uEmpresas, uNintendo, uMenuPrincipal, uConfiguracoes, uGBA, uContas, uLogin,
+  uGB, uGBC, uNDS, uNES, uSNES, uN64, uPS1, uSony, uSega, uSMS, uDC;
 
 var
   Timer1: Ttimer;
@@ -92,7 +93,26 @@ begin
    else if para = 'Login' then
     FormAtivo := TformLogin.Create(Self)
   else if para = 'GBA' then
-    FormAtivo := TformGBA.Create(Self);
+    FormAtivo := TformGBA.Create(Self)
+  else if para = 'GB' then
+    FormAtivo := TformGB.Create(Self)
+  else if para = 'GBC' then
+    FormAtivo := TformGBC.Create(Self)
+  else if para = 'NDS' then
+    FormAtivo := TformNDS.Create(Self)
+  else if para = 'NES' then
+    FormAtivo := TformNES.Create(Self)
+  else if para = 'SNES' then
+    FormAtivo := TformSNES.Create(Self)
+  else if para = 'N64' then
+    FormAtivo := TformN64.Create(Self)
+  else if para = 'PS' then
+    FormAtivo := TformPS1.Create(Self)
+  else if para = 'SMS' then
+    FormAtivo := TformSMS.Create(Self)
+  else if para = 'DC' then
+    FormAtivo := TformDC.Create(Self);
+
 
 
   FormAtivo.Parent := pnlAtivo;
@@ -106,7 +126,11 @@ begin
   if para = 'Empresas' then
     FormMenu := TformEmpresas.Create(Self)
   else if para = 'Nintendo' then
-    FormMenu := TformNintendo.Create(Self);
+    FormMenu := TformNintendo.Create(Self)
+  else if para = 'Sega' then
+    FormMenu := TformSega.Create(Self)
+  else if para = 'Sony' then
+    FormMenu := TformSony.Create(Self);
 
 
   FormMenu.Parent := pnlMenuMutavel;

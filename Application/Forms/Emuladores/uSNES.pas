@@ -45,7 +45,7 @@ var
 procedure TformSNES.CarregaRoms;
 var
   Diretorio: String;
-  Arquivos: TArray<string>;
+  Arquivos, ArquivosSFC, ArquivosSMC: TArray<string>;
   Arquivo: string;
   Botao: TMyCustomPanel;
   I: Integer;
@@ -62,7 +62,12 @@ begin
     Exit;
   end;
 
-  Arquivos := TDirectory.GetFiles(Diretorio, '*.sfc', TSearchOption.soTopDirectoryOnly);
+   // Buscar ambas extensões
+  ArquivosSFC := TDirectory.GetFiles(Diretorio, '*.sfc', TSearchOption.soTopDirectoryOnly);
+  ArquivosSMC := TDirectory.GetFiles(Diretorio, '*.smc', TSearchOption.soTopDirectoryOnly);
+
+  // Junta as listas
+  Arquivos := ArquivosSFC + ArquivosSMC;
 
   BotoesRoms := TList<TMyCustomPanel>.Create; // Inicializa a lista de botões
   try
@@ -128,18 +133,29 @@ begin
   end;
 end;
 
-
 procedure TformSNES.BotaoClick(Sender: TObject);
 var
   Botao: TMyCustomPanel;
-  Comando: string;
+  Comando, ArquivoRom: string;
 begin
   Botao := Sender as TMyCustomPanel;
+
+  // Verifica se o arquivo .sfc existe, se não tenta .smc
+  if FileExists(DiretorioPadrao + '\SNES\' + Botao.Caption + '.sfc') then
+    ArquivoRom := Botao.Caption + '.sfc'
+  else if FileExists(DiretorioPadrao + '\SNES\' + Botao.Caption + '.smc') then
+    ArquivoRom := Botao.Caption + '.smc'
+  else
+  begin
+    ShowMessage('Arquivo ROM não encontrado.');
+    Exit;
+  end;
+
   Comando := 'start /b ' + DiretorioPadrao + 'RaLibRetro\RALibretro.exe ' +
-  '--core mesen-s_libretro ' +
-  '--system 3 ' +
-  '--game "' + DiretorioPadrao + '\SNES\' + Botao.Caption + '.sfc"';
-  // Executa o comando no CMD
+             '--core mesen-s_libretro ' +
+             '--system 3 ' +
+             '--game "' + DiretorioPadrao + '\SNES\' + ArquivoRom + '"';
+
   ShellExecute(0, 'open', 'cmd.exe', PChar('/C ' + Comando), nil, SW_SHOWNORMAL);
 end;
 

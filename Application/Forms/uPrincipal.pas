@@ -162,7 +162,6 @@ begin
 end;
 
 
-
 procedure TformPrincipal.ValidaParametros;
 var
   Parametro: String;

@@ -100,7 +100,7 @@ begin
   end
   else
   begin
-    ShowMessage('A pasta especificada não existe: ' + Pasta);
+    ShowMessage('A pasta de saves ainda não foi criada inicie pelo menos um jogo.');
   end;
 end;
 

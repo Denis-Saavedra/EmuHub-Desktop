@@ -33,24 +33,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TformPrincipal, formPrincipal);
-  Application.CreateForm(TformMenu, formMenu);
-  Application.CreateForm(TformEmpresas, formEmpresas);
-  Application.CreateForm(TformNintendo, formNintendo);
-  Application.CreateForm(TformMenuPrincipal, formMenuPrincipal);
-  Application.CreateForm(TformConfiguracoes, formConfiguracoes);
-  Application.CreateForm(TformSelecionaEmulador, formSelecionaEmulador);
-  Application.CreateForm(TformContas, formContas);
-  Application.CreateForm(TformGBA, formGBA);
-  Application.CreateForm(TformGB, formGB);
-  Application.CreateForm(TformGBC, formGBC);
-  Application.CreateForm(TformNDS, formNDS);
-  Application.CreateForm(TformN64, formN64);
-  Application.CreateForm(TformNES, formNES);
-  Application.CreateForm(TformSNES, formSNES);
-  Application.CreateForm(TformSony, formSony);
-  Application.CreateForm(TformSega, formSega);
-  Application.CreateForm(TformSMS, formSMS);
-  Application.CreateForm(TformPS1, formPS1);
-  Application.CreateForm(TformDC, formDC);
   Application.Run;
 end.

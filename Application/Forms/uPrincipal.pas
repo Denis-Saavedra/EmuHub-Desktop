@@ -34,7 +34,7 @@ implementation
 uses
   uEmpresas, uGBA, System.StrUtils, IdURI, uLibrary, Vcl.Buttons,
   IdHTTP, IdSSLOpenSSL, System.Zip, uLogin, System.IniFiles, uMenu,
-  MyCustomPanel;
+  MyCustomPanel, System.Types, System.IOUtils;
 
 {$R *.dfm}
 
@@ -45,37 +45,44 @@ var
   SSLHandler: TIdSSLIOHandlerSocketOpenSSL;
   URL, URLimg: String;
   ZipFile: TZipFile;
-  DiretorioDestino: String;
-  I: Integer;
-  DestinoImagem: String;
+  DestinoImagem, DiretorioDestino, TempPath, NomeOriginal, ExtensaoOriginal, ArquivoExtraido, NovoNomeCompleto: String;
+  Files: TStringDynArray;
 begin
   DestinoImagem := DestinoArquivo + '.png';
   DestinoArquivo := DestinoArquivo + '.zip';
-  DiretorioDestino := ExtractFilePath(DestinoArquivo);;
+  DiretorioDestino := ExtractFilePath(DestinoArquivo);
+
+  // Pasta temporária
+  TempPath := IncludeTrailingPathDelimiter(DiretorioDestino) + 'TEMP_EXTRACT\';
+  if not DirectoryExists(TempPath) then
+    ForceDirectories(TempPath);
 
   IdHTTP := TIdHTTP.Create(nil);
   FileStream := TFileStream.Create(DestinoArquivo, fmCreate);
   FileStreamImage := TFileStream.Create(DestinoImagem, fmCreate);
   SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
-  URL := 'http://52.45.165.140/api/roms/' +
-  Emulador + '/' + Rom + '/download/';
-  URLimg := 'http://52.45.165.140/api/roms/img/download/?rom_name='+
-  StringReplace(Rom, ' ', '%20', [rfReplaceAll]);
-  //showmessage(URL);
+
+  URL := 'http://18.229.134.132:5000/api/Games/Download/' +
+         Emulador + '/' +
+         StringReplace(Rom, ' ', '%20', [rfReplaceAll]);
+  URLimg := 'http://18.229.134.132:5000/api/Games/DownloadImage/' +
+            Emulador + '/' +
+            StringReplace(Rom, ' ', '%20', [rfReplaceAll]);
 
   try
-    // Configura o manipulador SSL para conexões HTTPS
     IdHTTP.IOHandler := SSLHandler;
+    IdHTTP.Request.UserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/58.0.3029.110 Safari/537.3';
 
-    // Definir um User-Agent para simular um navegador comum
-    IdHTTP.Request.UserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3';
-
-    IdHTTP.Get(URL, FileStream); // Baixa o arquivo da URL e salva no FileStream
+    IdHTTP.Get(URL, FileStream);
     IdHTTP.Get(URLimg, FileStreamImage);
   except
     on E: Exception do
-      ShowMessage('Erro ao baixar arquivo: ' + E.Message); // Mostra mensagem de erro
+    begin
+      ShowMessage('Erro ao baixar arquivo: ' + E.Message);
+      Exit;
+    end;
   end;
+
   FileStream.Free;
   FileStreamImage.Free;
   IdHTTP.Free;
@@ -83,18 +90,31 @@ begin
 
   ZipFile := TZipFile.Create;
   try
-    // Abre o arquivo ZIP
     ZipFile.Open(DestinoArquivo, zmRead);
 
-    // Extrai todos os arquivos para o diretório de destino
-    ZipFile.ExtractAll(DiretorioDestino);
-
+    // Extrai tudo para a pasta temporária, mantendo estrutura interna só ali
+    ZipFile.ExtractAll(TempPath);
   finally
-    // Libera a memória do objeto TZipFile
     ZipFile.Free;
   end;
 
-  // Após descompactar, apaga o arquivo ZIP
+  // Localiza o primeiro arquivo real dentro da pasta temporária (ignorando subpastas)
+  Files := TDirectory.GetFiles(TempPath, '*.*', TSearchOption.soAllDirectories);
+  if Length(Files) = 1 then
+  begin
+    ExtensaoOriginal := ExtractFileExt(Files[0]);
+    NovoNomeCompleto := IncludeTrailingPathDelimiter(DiretorioDestino) + Rom + ExtensaoOriginal;
+
+    // Move e renomeia o arquivo para o destino final
+    TFile.Move(Files[0], NovoNomeCompleto);
+  end
+  else
+    ShowMessage('Erro: ZIP contém mais de um arquivo ou nenhum arquivo.');
+
+  // Apaga a pasta temporária inteira
+  TDirectory.Delete(TempPath, True);
+
+  // Exclui o ZIP baixado
   DeleteFile(DestinoArquivo);
 end;
 
@@ -162,7 +182,7 @@ begin
   Parametro := StringReplace(Parametro, '/', '', [rfReplaceAll]);
 
 
-  // Divide os parâmetros usando "|" como delimitador
+  // Divide os parâmetros usando "&" como delimitador
   Parametros := SplitString(Parametro, '&');
 
   // Verifica se foram passados os 3 parâmetros esperados

@@ -20,10 +20,6 @@ object formSelecionaEmulador: TformSelecionaEmulador
     Height = 164
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 328
-    ExplicitTop = 128
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object ListBox1: TListBox
       Left = 1
       Top = 1
@@ -40,14 +36,17 @@ object formSelecionaEmulador: TformSelecionaEmulador
         'Game Boy'
         'Game Boy Color'
         'Game Boy Advanced'
-        'Game Cube')
+        'Nintendo DS'
+        'Nintendinho'
+        'Super Nintendo'
+        'Nintendo 64'
+        'Playstation'
+        'Playstation 2'
+        'Master System'
+        'Dream Cast')
       ParentFont = False
       TabOrder = 0
       OnClick = ListBox1Click
-      ExplicitLeft = 112
-      ExplicitTop = 32
-      ExplicitWidth = 145
-      ExplicitHeight = 97
     end
   end
 end

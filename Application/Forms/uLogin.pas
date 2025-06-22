@@ -96,79 +96,73 @@ procedure TformLogin.LoginAPI(const Email, Password: string);
 var
   HTTPClient: TIdHTTP;
   SSLIOHandler: TIdSSLIOHandlerSocketOpenSSL;
-  FormData: TIdMultipartFormDataStream;
-  JSONResponse: TJSONObject;
-  Response: string;
-  Token, ErrorMsg: string;
+  JSONBody, Response: string;
+  JSONToSend, JSONResponse: TJSONObject;
+  Token: string;
 begin
   HTTPClient := TIdHTTP.Create(nil);
   SSLIOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
-  FormData := TIdMultipartFormDataStream.Create;
+  JSONToSend := TJSONObject.Create;
   try
     HTTPClient.IOHandler := SSLIOHandler;
 
-    // Configura o timeout e o content-type
-    HTTPClient.Request.ContentType := 'multipart/form-data';
+    // Timeout para evitar travamento infinito
+    HTTPClient.ConnectTimeout := 10000;
+    HTTPClient.ReadTimeout := 10000;
+
+    // Configuração HTTP
+    HTTPClient.Request.ContentType := 'application/json';
     HTTPClient.Request.Connection := 'keep-alive';
     HTTPClient.Request.Accept := 'application/json';
 
-    // Adiciona os parâmetros email e password ao form-data
-    FormData.AddFormField('email', Email);
-    FormData.AddFormField('password', Password);
+    // Monta o JSON de envio
+    JSONToSend.AddPair('email', Email);
+    JSONToSend.AddPair('password', Password);
+    JSONBody := JSONToSend.ToString;
 
     try
-      // Envia a requisição POST e captura a resposta
-      Response := HTTPClient.Post('http://52.45.165.140/api/token/', FormData);
+      // Envia o POST com JSON puro
+      Response := HTTPClient.Post('http://18.229.134.132:5000/api/Auth/Login/', TStringStream.Create(JSONBody, TEncoding.UTF8));
 
-      // Exibe a resposta para diagnóstico
-      //ShowMessage('Resposta da API: ' + Response);
-
-      // Converte o conteúdo da resposta para JSON
+      // Processa o JSON de resposta
       JSONResponse := TJSONObject.ParseJSONValue(Response) as TJSONObject;
       try
         if JSONResponse <> nil then
         begin
-          if JSONResponse.TryGetValue<string>('token', Token) then
+          if JSONResponse.GetValue<TJSONObject>('userTokens') <> nil then
           begin
-            ShowMessage('Logou! Token: ' + Token);
+            Token := JSONResponse.GetValue<TJSONObject>('userTokens').GetValue<string>('accessToken');
+            ShowMessage('Logou com sucesso! Token: ' + Token);  // <<< MENSAGEM RESTAURADA
             Logado := True;
             SalvaLogin(Email, Password);
             TformMenu(Owner).TrocaFormAtivo('Contas');
           end
-          else if JSONResponse.TryGetValue<string>('error', ErrorMsg) then
-          begin
-            ShowMessage('Erro de login: ' + ErrorMsg);
-          end
           else
-          begin
-            ShowMessage('Resposta inesperada da API.');
-          end;
+            ShowMessage('Login sem token na resposta.');
         end
         else
-        begin
-          ShowMessage('Resposta não é um JSON válido.');
-        end;
+          ShowMessage('Resposta não é JSON válido.');
       finally
         JSONResponse.Free;
       end;
     except
       on E: EIdHTTPProtocolException do
       begin
-        if (E.ErrorCode = 400) or (E.ErrorCode = 401) then
-          ShowMessage('Erro usuário e/ou senha não encontrados!')
+        if E.ErrorCode = 400 then
+          ShowMessage('E-mail ou senha incorretos!')
         else
-          ShowMessage('Erro HTTP: ' + E.ErrorMessage + ' (Código: ' + IntToStr(E.ErrorCode) + ')');
+          ShowMessage('Erro HTTP: ' + E.Message + ' (Código: ' + IntToStr(E.ErrorCode) + ')');
       end;
-
       on E: Exception do
         ShowMessage('Erro na requisição: ' + E.Message);
     end;
   finally
-    FormData.Free;
+    JSONToSend.Free;
     HTTPClient.Free;
     SSLIOHandler.Free;
   end;
 end;
+
 
 procedure TformLogin.btnLoginClick(Sender: TObject);
 var
@@ -193,7 +187,7 @@ end;
 
 procedure TformLogin.btnRegistrarClick(Sender: TObject);
 begin
-  ShellExecute(0, 'OPEN', PChar('http://52.45.165.140:5173/sign-in'), nil, nil, SW_SHOWNORMAL);
+  ShellExecute(0, 'OPEN', PChar('http://18.229.134.132:8080/sign-up'), nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure TformLogin.btnRegistrarMouseEnter(Sender: TObject);

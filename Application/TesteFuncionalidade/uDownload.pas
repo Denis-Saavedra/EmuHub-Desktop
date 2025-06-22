@@ -51,7 +51,7 @@ end;
 
 procedure TFormDownload.FormClick(Sender: TObject);
 begin
-  BaixarArquivo('http://52.45.165.140/api/roms/nintendo/gba/Pok%C3%A9mon%20Emerald/download/', 'C:\EmuHub\Nintendo\GBA\Roms\Pokémon Emerald.gba');
+  BaixarArquivo('http://18.229.134.132:5000/api/Games/Download/SNES/Supermetroid', 'C:\EmuHub\SNES\Super Metroid.zip');
 end;
 
 end.

@@ -98,10 +98,32 @@ begin
   formSelecionaEmulador := TformSelecionaEmulador.Create(Self);
   formSelecionaEmulador.ShowModal;
 
-  if EmuladorSelecionado = 'Game Boy Advanced' then
+  if EmuladorSelecionado = 'Game Boy' then
+    Emulador := 'GB'
+  else if EmuladorSelecionado = 'Game Boy Color' then
+    Emulador := 'GBC'
+  else if EmuladorSelecionado = 'Game Boy Advanced' then
     Emulador := 'GBA'
+  else if EmuladorSelecionado = 'Nintendo DS' then
+    Emulador := 'DS'
+  else if EmuladorSelecionado = 'Nintendinho' then
+    Emulador := 'NES'
+  else if EmuladorSelecionado = 'Super Nintendo' then
+    Emulador := 'SNES'
+  else if EmuladorSelecionado = 'Nintendo 64' then
+    Emulador := 'N64'
+  else if EmuladorSelecionado = 'Playstation' then
+    Emulador := 'PS'
+  else if EmuladorSelecionado = 'Playstation 2' then
+    Emulador := 'P2'
+  else if EmuladorSelecionado = 'Master System' then
+    Emulador := 'SMS'
+  else if EmuladorSelecionado = 'Dream Cast' then
+    Emulador := 'DC'
   else
     Emulador := '';
+
+  EmuladorSelecionado := '';
 
   if Emulador <> '' then
   begin

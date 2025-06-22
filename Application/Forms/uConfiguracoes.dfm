@@ -24,7 +24,6 @@ object formConfiguracoes: TformConfiguracoes
     Align = alClient
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 640
     object btnContas: TMyCustomPanel
       Left = 30
       Top = 25

@@ -6,10 +6,10 @@
         <Projects Include="Application\EmuHub.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj">
+        <Projects Include="Instalador\EmuHubInstaller.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Instalador\EmuHubInstaller.dproj">
+        <Projects Include="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -29,15 +29,6 @@
     <Target Name="EmuHub:Make">
         <MSBuild Projects="Application\EmuHub.dproj" Targets="Make"/>
     </Target>
-    <Target Name="MyCustoms">
-        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj"/>
-    </Target>
-    <Target Name="MyCustoms:Clean">
-        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="MyCustoms:Make">
-        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj" Targets="Make"/>
-    </Target>
     <Target Name="EmuHubInstaller">
         <MSBuild Projects="Instalador\EmuHubInstaller.dproj"/>
     </Target>
@@ -47,14 +38,23 @@
     <Target Name="EmuHubInstaller:Make">
         <MSBuild Projects="Instalador\EmuHubInstaller.dproj" Targets="Make"/>
     </Target>
+    <Target Name="MyCustoms">
+        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj"/>
+    </Target>
+    <Target Name="MyCustoms:Clean">
+        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MyCustoms:Make">
+        <MSBuild Projects="..\..\..\Documents\Embarcadero\Studio\Projects\MyCustoms.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="EmuHub;MyCustoms;EmuHubInstaller"/>
+        <CallTarget Targets="EmuHub;EmuHubInstaller;MyCustoms"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="EmuHub:Clean;MyCustoms:Clean;EmuHubInstaller:Clean"/>
+        <CallTarget Targets="EmuHub:Clean;EmuHubInstaller:Clean;MyCustoms:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="EmuHub:Make;MyCustoms:Make;EmuHubInstaller:Make"/>
+        <CallTarget Targets="EmuHub:Make;EmuHubInstaller:Make;MyCustoms:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

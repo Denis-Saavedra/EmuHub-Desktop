@@ -122,7 +122,7 @@ begin
 
     try
       // Envia o POST com JSON puro
-      Response := HTTPClient.Post('http://18.229.134.132:5000/api/Auth/Login/', TStringStream.Create(JSONBody, TEncoding.UTF8));
+      Response := HTTPClient.Post('http://56.124.92.171:5000/api/Auth/Login/', TStringStream.Create(JSONBody, TEncoding.UTF8));
 
       // Processa o JSON de resposta
       JSONResponse := TJSONObject.ParseJSONValue(Response) as TJSONObject;
@@ -187,7 +187,7 @@ end;
 
 procedure TformLogin.btnRegistrarClick(Sender: TObject);
 begin
-  ShellExecute(0, 'OPEN', PChar('http://18.229.134.132:8080/sign-up'), nil, nil, SW_SHOWNORMAL);
+  ShellExecute(0, 'OPEN', PChar('http://56.124.92.171:8080/sign-up'), nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure TformLogin.btnRegistrarMouseEnter(Sender: TObject);

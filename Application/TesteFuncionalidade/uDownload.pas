@@ -51,7 +51,7 @@ end;
 
 procedure TFormDownload.FormClick(Sender: TObject);
 begin
-  BaixarArquivo('http://18.229.134.132:5000/api/Games/Download/SNES/Supermetroid', 'C:\EmuHub\SNES\Super Metroid.zip');
+  BaixarArquivo('http://56.124.92.171:5000/api/Games/Download/SNES/Supermetroid', 'C:\EmuHub\SNES\Super Metroid.zip');
 end;
 
 end.

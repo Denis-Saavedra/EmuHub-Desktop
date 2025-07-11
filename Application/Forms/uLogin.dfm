@@ -27,8 +27,6 @@ object formLogin: TformLogin
     Color = clBlack
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 586
-    ExplicitHeight = 390
     object Label1: TLabel
       Left = 112
       Top = 107

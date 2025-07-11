@@ -62,10 +62,11 @@ begin
   FileStreamImage := TFileStream.Create(DestinoImagem, fmCreate);
   SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
 
-  URL := 'http://56.124.92.171:5000/api/Games/Download/' +
+  URL := 'http://localhost:5000/api/Games/Download/' +
          Emulador + '/' +
          StringReplace(Rom, ' ', '%20', [rfReplaceAll]);
-  URLimg := 'http://56.124.92.171:5000/api/Games/DownloadImage/' +
+         //showmessage(URL);
+  URLimg := 'http://localhost:5000/api/Games/DownloadImage/' +
             Emulador + '/' +
             StringReplace(Rom, ' ', '%20', [rfReplaceAll]);
 
